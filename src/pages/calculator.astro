@@ -1,0 +1,9 @@
+---
+import Layout from "../layouts/Layout.astro";
+import body from "../content/calculator-body.html?raw";
+import js from "../content/calculator.js?raw";
+---
+<Layout title="What size solar system do I need? Free solar sizing calculator | Powermind" description="Work out what size solar system your home actually needs — in kilowatts and panels — with a free Australian solar calculator. Then the part most tools skip: how much of that solar you'll really use. Backed by CSIRO, AEMO and UNSW research." active="calc">
+  <Fragment set:html={body} />
+  <script is:inline set:html={js} />
+</Layout>

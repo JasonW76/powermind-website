@@ -1,0 +1,7 @@
+---
+import Layout from "../layouts/Layout.astro";
+import body from "../content/home-body.html?raw";
+---
+<Layout title="Powermind — catch your solar before it leaves the roof" description="Powermind helps Australian solar homes use their surplus power to heat water, charge the car and run the AC — instead of exporting it for cents and buying it back at peak." active="home">
+  <Fragment set:html={body} />
+</Layout>

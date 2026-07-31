@@ -1,0 +1,45 @@
+---
+import "../styles/global.css";
+const { title, description, active } = Astro.props;
+const buildDate = new Date().toLocaleDateString("en-AU", { month: "long", year: "numeric" });
+---
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <nav>
+    <div class="nav-in">
+      <a class="brand" href="/"><img src="/pm-logo.png" alt="Powermind" width="43" height="43" /><span>Powermind</span></a>
+      <div class="nav-links">
+        <a href="/" class={active === "home" ? "active" : ""}>Home</a>
+        <a href="/calculator" class={active === "calc" ? "active" : ""}>Calculator</a>
+        <a href="/app" class={active === "app" ? "active" : ""}>The app</a>
+        <a class="btn btn-amber" href="/app#beta">Join the beta →</a>
+      </div>
+    </div>
+  </nav>
+  <slot />
+  <footer>
+    <div class="wrap foot-in">
+      <a class="brand" href="/"><img src="/pm-logo.png" alt="Powermind" width="24" height="24" /><span>Powermind</span></a>
+      <div class="foot-nav">
+        <a href="/calculator">Calculator</a>
+        <a href="/app">The app</a>
+        <a href="/app#beta">Beta</a>
+      </div>
+      <div class="foot-right">
+        <a href="mailto:jason@futerra.ai">jason@futerra.ai</a><br />
+        Powermind · a Futerra company · Updated {buildDate}
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

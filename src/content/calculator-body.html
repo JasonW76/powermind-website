@@ -1,0 +1,139 @@
+<header class="phead">
+    <div class="glow glow-amber"></div>
+    <div class="wrap">
+      <div class="eyebrow amber">Solar sizing calculator · free · no sign-up</div>
+      <h1>What size solar system do I need?</h1>
+      <p class="sub">Start from your actual power bill and get an honest size for your home — in kilowatts and panels. Then the part most solar calculators skip: how much of that power you'll actually use, and what it takes to use more.</p>
+    </div>
+  </header>
+
+  <section class="blk">
+    <div class="wrap">
+      <div class="kicker">The sizing model</div>
+      <h2 class="big" style="margin-bottom:8px">Your honest system size.</h2>
+      <p class="lead" style="margin-bottom:8px">Built the way a scientist would size it: from your <b style="color:var(--ink); font-weight:600">actual power use</b>, your state's real sun, and Australian field research — shown as an honest range, not false precision.</p>
+      <div class="instrument">
+        <div class="inst-head">
+          <span class="lab">Powermind sizing model</span>
+          <span class="tag">calibrated to a measured 6.6 kW Canberra system</span>
+        </div>
+        <div class="inst-body">
+          <div class="inst-inputs">
+            <div class="field">
+              <label>Start from your power bill — or your usage</label>
+              <div class="seg2"><button type="button" id="mBill" class="on">Quarterly bill</button><button type="button" id="mUse">I know my usage</button></div>
+              <div id="fBill"><input id="bill" type="range" min="250" max="2200" step="25" value="450"><div class="hint" id="billOut">$450 a quarter · ≈ 15 kWh/day</div></div>
+              <div id="fUse" style="display:none"><input id="use" type="range" min="6" max="75" step="0.5" value="15.5"><div class="hint" id="useOut">15.5 kWh a day · ≈ $450/quarter</div></div>
+            </div>
+            <div class="field">
+              <label>Your state <span style="color:var(--faint)">— sets your real sun</span></label>
+              <select id="state">
+                <option value="act" selected>ACT</option>
+                <option value="nsw">NSW</option>
+                <option value="vic">VIC</option>
+                <option value="qld">QLD</option>
+                <option value="sa">SA</option>
+                <option value="wa">WA</option>
+                <option value="tas">TAS</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Days a week someone's home in the daytime</label>
+              <input id="days" type="range" min="0" max="7" step="1" value="3">
+              <div class="hint" id="daysOut">3 days a week · you'd use ~44% of your solar directly</div>
+            </div>
+            <div class="field">
+              <label>Current hot water</label>
+              <select id="hwtype">
+                <option value="electric" selected>Electric (resistive)</option>
+                <option value="gas">Gas</option>
+                <option value="heatpump">Heat pump already</option>
+                <option value="solar">Solar hot water</option>
+              </select>
+            </div>
+            <div class="field" style="margin-bottom:0">
+              <label>What are you adding? <span style="color:var(--faint)">— we'll size for it</span></label>
+              <div class="addrow"><span class="an">Electric vehicles</span><div class="stepper"><button type="button" data-step="ev" data-d="-1">&minus;</button><span class="num" id="nEv">0</span><button type="button" data-step="ev" data-d="1">+</button></div></div>
+              <div class="addrow"><span class="an">Split-system aircons</span><div class="stepper"><button type="button" data-step="ac" data-d="-1">&minus;</button><span class="num" id="nAc">0</span><button type="button" data-step="ac" data-d="1">+</button></div></div>
+              <div class="addrow"><span class="an">Pool</span><div class="chip tog" id="cPool" data-toggle="pool">No</div></div>
+              <div class="addrow" id="rowHp"><span class="an">Switch hot water to a heat pump</span><div class="chip tog" id="cHp" data-toggle="hpswap">No</div></div>
+              <div class="hint" id="hpNote" style="margin-top:10px; margin-bottom:0">A heat pump replaces your electric system, so it usually <b style="color:var(--muted)">lowers</b> your use by ~1,800 kWh/yr.</div>
+            </div>
+          </div>
+          <div class="inst-result">
+            <div class="rk">A home like yours needs about</div>
+            <div class="range" id="kw">6.5–7.5 kW</div>
+            <div class="rsub" id="panels">≈ 15–17 panels</div>
+            <div style="height:16px"></div>
+            <div class="rrow"><span class="lab">Your electricity use</span><span class="val" id="usey">5,600 kWh/yr</span></div>
+            <div class="rrow"><span class="lab">This system would generate</span><span class="val" style="color:var(--amber-lt)" id="geny">9,900 kWh/yr</span></div>
+            <div class="rrow"><span class="lab">Generation, summer vs winter</span><span class="val"><span style="color:var(--amber-lt)" id="sumd">~35</span> · <span style="color:var(--blue-lt)" id="wind">~15</span> <span style="color:var(--muted); font-weight:500">kWh/day</span></span></div>
+            <div class="rrow"><span class="lab">You'd use directly (unmanaged)</span><span class="val" style="color:var(--blue-lt)" id="selfuse">~45%</span></div>
+            <div class="waste">
+              <div class="wk">Solar you'd export for cents</div>
+              <div class="wv"><span id="wkwh">~4,600</span> kWh a year</div>
+              <div class="wsub">Worth only ~$<span id="wfeed">280</span> at a feed-in tariff — the same power costs ~$<span id="wpeak">1,500</span> to buy back at peak. Closing that gap is what Powermind does.</div>
+            </div>
+            <p class="disclaimer">Sized on a yearly basis (the standard). Generation itself swings hard with the seasons — high in summer, roughly half in winter — so summer brings a big surplus you'll export for cents unless you use it. That's exactly what Powermind is for.</p>
+          </div>
+        </div>
+        <div class="inst-foot">
+          <b style="color:var(--muted)">How this is worked out:</b> generation from your state's yield (CSIRO / Clean Energy Council figures — ACT anchored to a real measured 1,409 kWh per kW per year); self-consumption from UNSW SolarShift and ANU field data; 440&nbsp;W panels; a 1.45× headroom over your yearly use. <b style="color:var(--muted)">This is a free guide to help you ask better questions — not financial, electrical or design advice.</b> Your roof, shading, budget and tariff all move the real number, so always confirm the right system with a CEC-accredited installer before you buy.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="blk alt">
+    <div class="wrap">
+      <div class="kicker">The catch most calculators skip</div>
+      <h2 class="big">The size is only half the answer.</h2>
+      <p class="lead">Getting the size right matters — but even a perfectly-sized system sends most of its power to the grid for cents, because it's made at noon while your home draws power morning and night. A kilowatt-hour of your own solar, used at home, is worth several times more than one exported.</p>
+      <div class="fivex">
+        <div class="cell"><div class="n amberN">4–10¢</div><div class="l">a typical feed-in tariff — what you're paid to export a kWh</div></div>
+        <div class="mid"><b>vs</b></div>
+        <div class="cell"><div class="n blueN">28–48¢</div><div class="l">a typical peak rate — what you pay to buy the same kWh back</div></div>
+      </div>
+      <p class="lead" style="margin-top:26px">So the real question isn't only what size — it's how much of it you keep. That's what Powermind is built to do: shift your hot water, car and aircon onto your surplus, automatically.</p>
+      <div class="ctas" style="margin-top:26px">
+        <a class="btn btn-amber" href="/app">See how Powermind captures it →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <div class="wrap">
+      <div class="kicker">The evidence</div>
+      <h2 class="big">These aren't our numbers. They're the research.</h2>
+      <p class="lead">The sizing above, and the case for using your solar rather than exporting it, both rest on Australian energy research. A few of the voices behind it:</p>
+      <div class="quotes">
+        <blockquote class="q g">
+          <p>&ldquo;More than half of Australian homes have an electric water heater with a storage tank — a thermal battery that often stores more energy than a home battery.&rdquo;</p>
+          <cite>University of New South Wales — <a href="https://www.unsw.edu.au/newsroom/news/2024/11/hot-water-heaters-daytime-solar" target="_blank" rel="noopener">Hot water heaters &amp; daytime solar</a>, 2024</cite>
+        </blockquote>
+        <blockquote class="q">
+          <p>&ldquo;Close to 50% of water heating was successfully shifted from night to day. Most householders reported no noticeable change to their hot water service — only 0.3% of households opted out.&rdquo;</p>
+          <cite>UNSW SolarShift trial, 18,000 South Australian households (Yildiz &amp; Saberi) — funded by <a href="https://arena.gov.au/assets/2023/07/demand-flexibility-portfolio-retrospective-analysis-report.pdf" target="_blank" rel="noopener">ARENA</a> &amp; RACE for 2030</cite>
+        </blockquote>
+        <blockquote class="q b">
+          <p>&ldquo;Before spending $10,000+ on a battery, consider whether you can shift existing loads to solar hours. Shifting 5–10 kWh of daily load into solar hours effectively eliminates curtailment for most 6.6 kW systems — and costs nothing.&rdquo;</p>
+          <cite>Gridly — <a href="https://www.gridly.com.au/blog/solar-export-limits-grid-connection-australia/" target="_blank" rel="noopener">Australian solar export economics</a>, 2026</cite>
+        </blockquote>
+      </div>
+
+      <div class="srclist">
+        <h3>Where the numbers come from</h3>
+        <div class="src"><div class="inst">CSIRO &amp; AEMO</div><div class="desc">4.2 million rooftop systems and 26.8 GW installed; distributed solar, batteries and EVs projected as the largest slice of the grid by 2050. <a href="https://www.aemo.com.au/energy-systems/major-publications/integrated-system-plan-isp/2024-integrated-system-plan-isp" target="_blank" rel="noopener">2024 Integrated System Plan</a>.</div></div>
+        <div class="src"><div class="inst">UNSW SPREE</div><div class="desc">The SolarShift project: excess solar can meet ~48% of daily hot water demand at 100% customer comfort. <a href="https://www.pv-magazine-australia.com/2021/09/06/unsw-study-channelling-rooftop-pv-into-water-heating-is-a-residential-super-saver/" target="_blank" rel="noopener">PV Magazine</a>.</div></div>
+        <div class="src"><div class="inst">ARENA</div><div class="desc">Demand Flexibility Portfolio: the largest household opportunities are hot water, air-conditioning and pool pumps — &ldquo;shift heating into the middle of the day.&rdquo;</div></div>
+        <div class="src"><div class="inst">Aust. Government</div><div class="desc">YourHome guide endorses pre-conditioning: &ldquo;use air-conditioning to cool the mass during the day without cost or emissions.&rdquo; <a href="https://www.yourhome.gov.au/passive-design/thermal-mass" target="_blank" rel="noopener">yourhome.gov.au</a>.</div></div>
+        <div class="src"><div class="inst">ANU</div><div class="desc">Battery Storage &amp; Grid Integration Program (Dr Bjorn Sturmberg): residential self-consumption measured rising from 34% to 58% with coordinated storage.</div></div>
+        <div class="src"><div class="inst">Climate Council</div><div class="desc">2025 Battery Boom report on household solar-plus-storage economics and the widening export-vs-import gap.</div></div>
+      </div>
+
+      <div class="ctas" style="margin-top:36px">
+        <a class="btn btn-amber" href="/app#beta">Become a foundation user →</a>
+        <a class="btn btn-ghost" href="/app">See the app</a>
+      </div>
+    </div>
+  </section>
