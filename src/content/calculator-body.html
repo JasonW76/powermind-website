@@ -26,16 +26,9 @@
               <div id="fUse" style="display:none"><input id="use" type="range" min="6" max="75" step="0.5" value="15.5"><div class="hint" id="useOut">15.5 kWh a day · ≈ $450/quarter</div></div>
             </div>
             <div class="field">
-              <label>Your state <span style="color:var(--faint)">— sets your real sun</span></label>
-              <select id="state">
-                <option value="act" selected>ACT</option>
-                <option value="nsw">NSW</option>
-                <option value="vic">VIC</option>
-                <option value="qld">QLD</option>
-                <option value="sa">SA</option>
-                <option value="wa">WA</option>
-                <option value="tas">TAS</option>
-              </select>
+              <label>Your postcode <span style="color:var(--faint)">— sets your real sun</span></label>
+              <input id="pc" type="text" inputmode="numeric" maxlength="4" value="2600" placeholder="e.g. 2600" />
+              <div class="hint" id="pcOut">2600 · ACT</div>
             </div>
             <div class="field">
               <label>Days a week someone's home in the daytime</label>
@@ -78,7 +71,7 @@
           </div>
         </div>
         <div class="inst-foot">
-          <b style="color:var(--muted)">How this is worked out:</b> generation from your state's yield (CSIRO / Clean Energy Council figures — ACT anchored to a real measured 1,409 kWh per kW per year); self-consumption from UNSW SolarShift and ANU field data; 440&nbsp;W panels; a 1.45× headroom over your yearly use. <b style="color:var(--muted)">This is a free guide to help you ask better questions — not financial, electrical or design advice.</b> Your roof, shading, budget and tariff all move the real number, so always confirm the right system with a CEC-accredited installer before you buy.
+          <b style="color:var(--muted)">How this is worked out:</b> generation from your region's yield (CSIRO / Clean Energy Council state-level figures — ACT anchored to a real measured 1,409 kWh per kW per year); self-consumption from UNSW SolarShift and ANU field data; 440&nbsp;W panels; a 1.45× headroom over your yearly use. <b style="color:var(--muted)">This is a free guide to help you ask better questions — not financial, electrical or design advice.</b> Your roof, shading, budget and tariff all move the real number, so always confirm the right system with a CEC-accredited installer before you buy.
         </div>
       </div>
     </div>

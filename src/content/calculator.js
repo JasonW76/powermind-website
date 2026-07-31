@@ -11,7 +11,20 @@ var mode = 'bill';
   // self-consumption is derived from "days at home" in render():
   //   0 days ≈ 30% self-use (empty in daylight) → 7 days ≈ 62% (someone always home).
   //   Anchored to Jason's measured 47% at ~4 days. UNSW/ANU baseline for the 30–60% range.
-  var yieldKwh = {act:1400, nsw:1380, vic:1280, qld:1460, sa:1440, wa:1550, tas:1180};   // kWh/kW/yr (CEC/CSIRO)
+  var yieldKwh = {act:1400, nsw:1380, vic:1280, qld:1460, sa:1440, wa:1550, tas:1180, nt:1540};   // kWh/kW/yr (CEC/CSIRO)
+  function stateFromPostcode(v){
+    var pc = parseInt(v, 10);
+    if (isNaN(pc)) return 'act';
+    if ((pc>=2600 && pc<=2618) || (pc>=2900 && pc<=2920) || (pc>=200 && pc<=299)) return 'act';
+    if (pc>=800 && pc<=999) return 'nt';
+    if (pc>=1000 && pc<=2999) return 'nsw';
+    if (pc>=3000 && pc<=3999) return 'vic';
+    if (pc>=4000 && pc<=4999) return 'qld';
+    if (pc>=5000 && pc<=5799) return 'sa';
+    if (pc>=6000 && pc<=6799) return 'wa';
+    if (pc>=7000 && pc<=7799) return 'tas';
+    return 'nsw';
+  }
   var RATE = 0.32;         // $/kWh all-in, for bill<->usage conversion
   var HEADROOM = 1.45;     // size generously over yearly use
   function billEl(){ return document.getElementById('bill'); }
@@ -31,7 +44,9 @@ var mode = 'bill';
     }
     var use = annual + add.ev*ADD.ev + add.ac*ADD.ac + (add.pool?ADD.pool:0) + hpDelta();
     if (use < 800) use = 800;
-    var y = yieldKwh[document.getElementById('state').value];
+    var st = stateFromPostcode(document.getElementById('pc').value);
+    var y = yieldKwh[st];
+    document.getElementById('pcOut').textContent = (document.getElementById('pc').value || '—') + ' · ' + st.toUpperCase();
     var kwMid = use / y * HEADROOM;
     var lo = Math.max(3, Math.round((kwMid-0.5)*2)/2);
     var hi = Math.round((kwMid+0.5)*2)/2;
@@ -74,7 +89,7 @@ var mode = 'bill';
   document.getElementById('mUse').addEventListener('click', toUse);
   billEl().addEventListener('input', render);
   useEl().addEventListener('input', render);
-  document.getElementById('state').addEventListener('change', render);
+  document.getElementById('pc').addEventListener('input', render);
   document.getElementById('days').addEventListener('input', render);
   var MAXN = {ev:2, ac:3};
   Array.prototype.forEach.call(document.querySelectorAll('[data-step]'), function(btn){
