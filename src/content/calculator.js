@@ -11,19 +11,18 @@ var mode = 'bill';
   // self-consumption is derived from "days at home" in render():
   //   0 days ≈ 30% self-use (empty in daylight) → 7 days ≈ 62% (someone always home).
   //   Anchored to Jason's measured 47% at ~4 days. UNSW/ANU baseline for the 30–60% range.
-  var yieldKwh = {act:1400, nsw:1380, vic:1280, qld:1460, sa:1440, wa:1550, tas:1180, nt:1540};   // kWh/kW/yr (CEC/CSIRO)
-  function stateFromPostcode(v){
+  // Clean Energy Regulator solar PV zones — 137 postcode ranges [rangeEnd, zone], contiguous 0000-9999.
+  // Source: CER "Postcode zone ratings and zones for solar (photovoltaic) systems". Zones cross state lines,
+  // so this is finer than a state figure (e.g. Cairns, Brisbane and the Gold Coast sit in different zones).
+  var ZR = [[799,3],[853,2],[854,3],[861,2],[862,3],[869,2],[879,1],[885,3],[1000,2],[2355,3],[2357,2],[2384,3],[2389,2],[2395,3],[2397,2],[2399,3],[2400,2],[2404,3],[2407,2],[2544,3],[2554,4],[2627,3],[2628,4],[2629,3],[2639,4],[2816,3],[2817,2],[2820,3],[2829,2],[2830,3],[2841,2],[2872,3],[2873,2],[2877,3],[2889,2],[2999,3],[3035,4],[3038,3],[3044,4],[3045,3],[3046,4],[3049,3],[3058,4],[3059,3],[3060,4],[3064,3],[3074,4],[3076,3],[3098,4],[3099,3],[3292,4],[3302,3],[3308,4],[3319,3],[3333,4],[3337,3],[3339,4],[3758,3],[3760,4],[3764,3],[3999,4],[4416,3],[4417,2],[4427,3],[4473,2],[4476,1],[4478,2],[4485,1],[4491,2],[4492,1],[4493,2],[4494,3],[4497,2],[4719,3],[4722,2],[4723,3],[4734,2],[4736,1],[4822,3],[4823,2],[4824,3],[4827,2],[4828,3],[4829,1],[5431,3],[5450,2],[5654,3],[5669,2],[5679,3],[5699,2],[5709,3],[5722,2],[5724,1],[5730,2],[5731,1],[5732,2],[5799,1],[6043,3],[6044,2],[6256,3],[6270,4],[6316,3],[6349,4],[6353,3],[6356,4],[6394,3],[6400,4],[6430,3],[6431,2],[6433,3],[6440,2],[6441,1],[6444,3],[6459,4],[6467,3],[6469,2],[6471,3],[6472,2],[6506,3],[6508,2],[6509,3],[6536,2],[6537,1],[6555,2],[6573,3],[6602,2],[6607,3],[6641,2],[6724,1],[6750,2],[6764,1],[6765,2],[6797,1],[6799,2],[6999,3],[8999,4],[9999,3]];
+  // Yield per zone: CER's own zone rating *ratios* (1.622 / 1.536 / 1.382 / 1.185), anchored so zone 3
+  // equals the real 1,409 kWh/kW/yr measured on Jason's Canberra system. Keeps it grounded in a real roof.
+  var zoneYield = {1:1640, 2:1555, 3:1409, 4:1210};   // kWh/kW/yr
+  function zoneFromPostcode(v){
     var pc = parseInt(v, 10);
-    if (isNaN(pc)) return 'act';
-    if ((pc>=2600 && pc<=2618) || (pc>=2900 && pc<=2920) || (pc>=200 && pc<=299)) return 'act';
-    if (pc>=800 && pc<=999) return 'nt';
-    if (pc>=1000 && pc<=2999) return 'nsw';
-    if (pc>=3000 && pc<=3999) return 'vic';
-    if (pc>=4000 && pc<=4999) return 'qld';
-    if (pc>=5000 && pc<=5799) return 'sa';
-    if (pc>=6000 && pc<=6799) return 'wa';
-    if (pc>=7000 && pc<=7799) return 'tas';
-    return 'nsw';
+    if (isNaN(pc) || pc < 0 || pc > 9999) return 3;
+    for (var i=0;i<ZR.length;i++){ if (pc <= ZR[i][0]) return ZR[i][1]; }
+    return 3;
   }
   var RATE = 0.32;         // $/kWh all-in, for bill<->usage conversion
   var HEADROOM = 1.45;     // size generously over yearly use
@@ -44,9 +43,9 @@ var mode = 'bill';
     }
     var use = annual + add.ev*ADD.ev + add.ac*ADD.ac + (add.pool?ADD.pool:0) + hpDelta();
     if (use < 800) use = 800;
-    var st = stateFromPostcode(document.getElementById('pc').value);
-    var y = yieldKwh[st];
-    document.getElementById('pcOut').textContent = (document.getElementById('pc').value || '—') + ' · ' + st.toUpperCase();
+    var z = zoneFromPostcode(document.getElementById('pc').value);
+    var y = zoneYield[z];
+    document.getElementById('pcOut').textContent = (document.getElementById('pc').value || '—') + ' · solar zone ' + z;
     var kwMid = use / y * HEADROOM;
     var lo = Math.max(3, Math.round((kwMid-0.5)*2)/2);
     var hi = Math.round((kwMid+0.5)*2)/2;
