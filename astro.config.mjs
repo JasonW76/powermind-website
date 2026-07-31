@@ -1,2 +1,7 @@
 import { defineConfig } from "astro/config";
-export default defineConfig({ site: "https://powermind.com.au" });
+import sitemap from "@astrojs/sitemap";
+
+export default defineConfig({
+  site: "https://www.powermind.com.au",
+  integrations: [sitemap()],
+});
