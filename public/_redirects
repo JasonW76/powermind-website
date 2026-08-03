@@ -1,0 +1,7 @@
+# Cloudflare Pages redirects — canonical, specific (never a catch-all).
+# Precedence: these rules run first, then static assets, then 404.html.
+# So known aliases 301 to the real page; everything else falls through to
+# the built 404.html (served with a proper 404 status). No SPA catch-all.
+
+/the-app         /app         301
+/the-calculator  /calculator  301

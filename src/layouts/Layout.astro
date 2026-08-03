@@ -1,6 +1,6 @@
 ---
 import "../styles/global.css";
-const { title, description, active } = Astro.props;
+const { title, description, active, noindex } = Astro.props;
 const buildDate = new Date().toLocaleDateString("en-AU", { month: "long", year: "numeric" });
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 const ogImage = new URL("/og-image.png", Astro.site).href;
@@ -28,6 +28,7 @@ const website = {
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>{title}</title>
 <meta name="description" content={description} />
+{noindex && <meta name="robots" content="noindex, follow" />}
 <link rel="canonical" href={canonical} />
 <meta name="theme-color" content="#0a0c0f" />
 <link rel="icon" href="/favicon.ico" sizes="any" />
