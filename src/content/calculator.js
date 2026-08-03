@@ -150,9 +150,7 @@ var mode = 'bill';
     if (add.ac) bits.push(add.ac + ' split AC' + (add.ac>1?'s':''));
     if (add.pool) bits.push('pool');
     if (add.hpswap) bits.push('heat-pump hot water');
-    var useStr = (mode === 'bill')
-      ? '$' + (+billEl().value) + '/quarter  (~' + (annual/365).toFixed(1) + ' kWh/day)'
-      : (+useEl().value).toFixed(1) + ' kWh/day  (~$' + Math.round(annual*RATE/4) + '/quarter)';
+    var useStr = '~' + (annual/365).toFixed(1) + ' kWh/day';
     return {
       date: new Date().toLocaleDateString('en-AU', {day:'numeric', month:'long', year:'numeric'}),
       postcode: pcVal, zone: z, currentUse: useStr,
@@ -205,26 +203,25 @@ var mode = 'bill';
     doc.setFont('helvetica','bold'); doc.setFontSize(22); doc.setTextColor(15,18,22);
     doc.text('Your solar sizing report', M, y); y += 18;
     doc.setFont('helvetica','normal'); doc.setFontSize(10.5); doc.setTextColor(92,100,112);
-    var lede = doc.splitTextToSize('An independent, plain-English estimate of the system your home needs — sized to how much power you actually use. Take it to any installer and quote against these figures.', CW);
+    var lede = doc.splitTextToSize('An independent estimate of the system your home needs — sized to your actual power use, not just your roof. Take it to any installer and quote against these figures.', CW);
     doc.text(lede, M, y); y += lede.length*13 + 12;
 
     function label(t){ doc.setFont('helvetica','bold'); doc.setFontSize(8.5); doc.setTextColor(150,158,170); doc.text(t.toUpperCase(), M, y); y += 13; }
 
     label('Your home');
-    var items = [['Location','Postcode '+d.postcode],['Solar zone (CER)','Zone '+d.zone],['Current use',d.currentUse],['Home during day',d.daysHome],['Hot water',d.hotWater],['Adding',d.adding]];
-    var colW = CW/3, rowH = 38, gy = y;
+    var items = [['Location','Postcode '+d.postcode],['Solar zone (CER)','Zone '+d.zone],['Current use',d.currentUse],['Adding',d.adding]];
+    var colW = CW/4, rowH = 40, gy = y;
     doc.setDrawColor(224,228,235); doc.setLineWidth(1);
-    doc.roundedRect(M, gy, CW, rowH*2, 8, 8);
-    doc.line(M+colW, gy, M+colW, gy+rowH*2); doc.line(M+colW*2, gy, M+colW*2, gy+rowH*2);
-    doc.line(M, gy+rowH, M+CW, gy+rowH);
-    for (var i=0;i<6;i++){
-      var cx = M + (i%3)*colW + 12, cy = gy + Math.floor(i/3)*rowH;
+    doc.roundedRect(M, gy, CW, rowH, 8, 8);
+    for (var vln=1;vln<4;vln++) doc.line(M+colW*vln, gy, M+colW*vln, gy+rowH);
+    for (var i=0;i<4;i++){
+      var cx = M + i*colW + 12;
       doc.setFont('helvetica','bold'); doc.setFontSize(7.5); doc.setTextColor(150,158,170);
-      doc.text(items[i][0].toUpperCase(), cx, cy+15);
+      doc.text(items[i][0].toUpperCase(), cx, gy+16);
       doc.setFont('helvetica','bold'); doc.setFontSize(10.5); doc.setTextColor(15,18,22);
-      doc.text(doc.splitTextToSize(items[i][1], colW-20)[0], cx, cy+29);
+      doc.text(doc.splitTextToSize(items[i][1], colW-18)[0], cx, gy+30);
     }
-    y = gy + rowH*2 + 18;
+    y = gy + rowH + 18;
 
     label('Recommended system');
     var hy = y, hH = 46;
@@ -234,44 +231,48 @@ var mode = 'bill';
     doc.setFont('helvetica','normal'); doc.setFontSize(11); doc.setTextColor(199,204,211);
     doc.text(d.panels, W-M-14, hy+30, {align:'right'});
     y = hy + hH;
-    var stats = [['Annual generation',d.annualGen,green],['Your annual use',d.annualUse,ink],['Used from solar',d.selfPct,amberd],['Summer / winter day',d.seasonal,ink]];
-    var sW = CW/4, sH = 40;
+    var stats = [['Est. annual generation',d.annualGen,' in your zone',green],['Your annual use',d.annualUse,'',ink],['Sizing basis','1.45x use',' · 440 W panels',ink]];
+    var sW = CW/3, sH = 42;
     doc.setDrawColor(224,228,235); doc.rect(M, y, CW, sH);
-    for (var j=1;j<4;j++) doc.line(M+sW*j, y, M+sW*j, y+sH);
-    for (var k=0;k<4;k++){
+    for (var j=1;j<3;j++) doc.line(M+sW*j, y, M+sW*j, y+sH);
+    for (var k=0;k<3;k++){
       var sx = M + sW*k + 12;
       doc.setFont('helvetica','bold'); doc.setFontSize(7.5); doc.setTextColor(150,158,170);
-      doc.text(stats[k][0].toUpperCase(), sx, y+15);
-      doc.setFont('helvetica','bold'); doc.setFontSize(12.5); doc.setTextColor(stats[k][2][0],stats[k][2][1],stats[k][2][2]);
-      doc.text(stats[k][1], sx, y+31);
+      doc.text(stats[k][0].toUpperCase(), sx, y+16);
+      doc.setFont('helvetica','bold'); doc.setFontSize(12.5); doc.setTextColor(stats[k][3][0],stats[k][3][1],stats[k][3][2]);
+      doc.text(stats[k][1], sx, y+32);
+      if (stats[k][2]){ var vw = doc.getTextWidth(stats[k][1]); doc.setFont('helvetica','normal'); doc.setFontSize(8.5); doc.setTextColor(92,100,112); doc.text(stats[k][2], sx+vw+3, y+32); }
     }
-    y += sH + 16;
+    y += sH + 18;
 
-    doc.setFont('helvetica','normal'); doc.setFontSize(10.5); doc.setTextColor(42,47,55);
-    var means = 'This system covers your yearly use with headroom for what you’re adding. On this at-home pattern you’d use about ' + d.selfPct + ' of it directly; the rest exports. That surplus — about ' + d.exportedKwh + ' kWh a year — earns roughly $' + d.feedVal + ' at a 6c feed-in, but is worth closer to $' + d.peakVal + ' if you shift loads (hot water, car, air-con) into the sunny hours. Closing that gap is the whole game.';
-    var ml = doc.splitTextToSize(means, CW);
-    doc.text(ml, M, y+3); y += ml.length*13 + 16;
-
-    label('Questions to ask your installer');
+    label('What to raise with your installer');
     var qs = [
-      'Panel & inverter brand and tier — and their separate product vs performance warranties.',
-      'Export limit on your network — will the inverter be capped, and at what level?',
-      'Price per kW installed, after the STC rebate, so you can compare quotes fairly.',
-      'Roof & mounting — orientation, shading, and whether a battery-ready inverter is worth it.',
-      'Monitoring — what app and data you’ll get to see generation and self-use.',
-      'Timeline & who does the install — in-house team or subcontractor, and lead time.'
+      ['Meter the house while they’re here.', 'Ask them to fit energy monitoring during the install, so you can see what your home and big appliances actually use — not just what the panels make. Doing it now saves a call-out later.'],
+      ['Don’t get locked into one app.', 'Will you be stuck inside one brand’s app, or can you get at your own data and add other smart gear later? Closed systems box you in.'],
+      ['Set the big loads to run on solar.', 'Can your hot water — and later your EV and aircon — be set to run in the middle of the day on your own solar, instead of at night off the grid? Cheap to leave the wiring ready now.'],
+      ['Room to grow — battery, panels, EV.', 'A battery-ready inverter, space to add more panels, and a spot at the switchboard for an EV charger. Leaving room now beats swapping gear out later.'],
+      ['The accredited installer on the roof.', 'Will the accredited (SAA) installer be on site for the whole job, not just the final sign-off? Your rebate and the quality both depend on it.'],
+      ['Exact models, proof, and both warranties.', 'Get the exact panel and inverter model (not just “premium”), proof they’re well reviewed, and both warranties — the one on the product, and the one on its output over the years.'],
+      ['Price per kW after the rebate.', 'What’s the price per kW once the rebate’s applied? It’s the only fair way to compare quotes.']
     ];
-    doc.setFontSize(9.5);
-    for (var q=0;q<qs.length;q++){
-      doc.setDrawColor(19,35,58); doc.setLineWidth(1); doc.roundedRect(M, y-8, 10, 10, 2, 2);
-      doc.setFont('helvetica','normal'); doc.setTextColor(42,47,55);
-      var qt = doc.splitTextToSize(qs[q], CW-22);
-      doc.text(qt, M+18, y); y += qt.length*12 + 6;
+    var cgap = 22, colW2 = (CW - cgap)/2, tw = colW2 - 18;
+    function drawItem(x, top, it){
+      doc.setDrawColor(19,35,58); doc.setLineWidth(1); doc.roundedRect(x, top-8, 10, 10, 2, 2);
+      doc.setFont('helvetica','bold'); doc.setFontSize(9.5); doc.setTextColor(15,18,22);
+      var lead = doc.splitTextToSize(it[0], tw); doc.text(lead, x+18, top);
+      var yy = top + lead.length*12;
+      doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(60,66,75);
+      var body = doc.splitTextToSize(it[1], tw); doc.text(body, x+18, yy+2);
+      return yy + body.length*11.5 + 14;
     }
-    y += 8;
+    var rX = M + colW2 + cgap, yL = y, yR = y;
+    for (var qi=0; qi<qs.length; qi++){
+      if (qi % 2 === 0){ yL = drawItem(M, yL, qs[qi]); } else { yR = drawItem(rX, yR, qs[qi]); }
+    }
+    y = Math.max(yL, yR) + 6;
 
     label('For your installer');
-    var noteTxt = 'This homeowner sized their system with Powermind before shopping — an independent tool that matches system size to real household usage, not just roof space. Please quote against the figures above. Questions on the method: powermind.com.au.';
+    var noteTxt = 'This homeowner sized their system with Powermind before shopping — an independent tool that matches system size to real household usage, not just roof area. Please quote against the figures above. Questions on the method: powermind.com.au.';
     var nl = doc.splitTextToSize(noteTxt, CW-30);
     var nH = nl.length*12 + 26;
     doc.setFillColor(244,250,247); doc.roundedRect(M, y-4, CW, nH, 6, 6, 'F');
@@ -281,15 +282,15 @@ var mode = 'bill';
     doc.setFont('helvetica','normal'); doc.setFontSize(9.5); doc.setTextColor(38,48,43);
     doc.text(nl, M+16, y+25);
 
-    doc.setDrawColor(224,228,235); doc.line(M, H-70, W-M, H-70);
+    doc.setDrawColor(224,228,235); doc.line(M, H-72, W-M, H-72);
     doc.setFont('helvetica','normal'); doc.setFontSize(7.5); doc.setTextColor(150,158,170);
-    var disc = doc.splitTextToSize('Method & disclaimer. Estimates use the Clean Energy Regulator postcode solar-zone yields and your stated usage; generation and savings are indicative, not a guarantee. Powermind is independent and not affiliated with any installer, and this is general information, not financial advice. Confirm figures with a CEC-accredited installer.', 360);
-    doc.text(disc, M, H-58);
+    var disc = doc.splitTextToSize('Method & disclaimer. System size is estimated from the Clean Energy Regulator postcode solar-zone yields and the household’s stated usage, anchored to a measured 1,409 kWh/kW/yr on a Canberra roof (440 W panels, 1.45x headroom). Figures are indicative, not a guarantee. Powermind is independent and not affiliated with any installer; this is general information, not financial advice. Confirm the final system with an SAA-accredited installer.', 370);
+    doc.text(disc, M, H-60);
     doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.setTextColor(15,18,22);
-    doc.text('Powermind', W-M, H-58, {align:'right'});
+    doc.text('Powermind', W-M, H-60, {align:'right'});
     doc.setFont('helvetica','normal'); doc.setFontSize(8); doc.setTextColor(92,100,112);
-    doc.text('powermind.com.au', W-M, H-46, {align:'right'});
-    doc.text('a Futerra company', W-M, H-36, {align:'right'});
+    doc.text('powermind.com.au', W-M, H-48, {align:'right'});
+    doc.text('a Futerra company', W-M, H-38, {align:'right'});
 
     doc.save('Powermind-Solar-Report.pdf');
   }
