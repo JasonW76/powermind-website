@@ -1,3 +1,16 @@
+<style>
+.report-block{margin-top:22px;padding-top:20px;border-top:1px solid var(--line)}
+.report-btn{font-size:15px}
+.report-sub{margin-top:10px;font-size:13px;color:var(--muted);line-height:1.5}
+.nl-wrap{margin-top:16px}
+.nl-toggle{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;color:var(--muted);line-height:1.5;cursor:pointer}
+.nl-toggle input{margin-top:3px;width:16px;height:16px;accent-color:var(--amber);flex:0 0 auto;cursor:pointer}
+.nl-toggle b{color:var(--ink);font-weight:600}
+.nl-email{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.nl-email input{background:var(--bg-2);border:1px solid var(--line);border-radius:10px;padding:10px 13px;color:var(--ink);font-size:14px;min-width:230px}
+.nl-note{font-size:12.5px;color:var(--muted)}
+</style>
+
 <header class="phead">
     <div class="glow glow-amber"></div>
     <div class="wrap">
@@ -69,6 +82,17 @@
               <div class="wsub">Worth only ~$<span id="wfeed">280</span> at a feed-in tariff — the same power costs ~$<span id="wpeak">1,500</span> to buy back at peak. Closing that gap is what Powermind does.</div>
             </div>
             <p class="disclaimer">Sized on a yearly basis (the standard). Generation itself swings hard with the seasons — high in summer, roughly half in winter — so summer brings a big surplus you'll export for cents unless you use it. That's exactly what Powermind is for.</p>
+            <div class="report-block">
+              <button type="button" id="dlReport" class="btn btn-amber report-btn">Download your report (PDF) ↓</button>
+              <p class="report-sub">A branded, one-page summary of these numbers — take it to any installer and quote against it.</p>
+              <div id="nlWrap" class="nl-wrap" hidden>
+                <label class="nl-toggle"><input type="checkbox" id="nlOn"> <span>Also send me <b>Behind the Meter</b> — a weekly, plain-English Australian home-energy briefing. One email a week, no spam, unsubscribe anytime.</span></label>
+                <div id="nlEmailRow" class="nl-email" hidden>
+                  <input type="email" id="nlEmail" placeholder="you@email.com" autocomplete="email" />
+                  <span class="nl-note" id="nlNote"></span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="inst-foot">
