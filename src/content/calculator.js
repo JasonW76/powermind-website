@@ -151,6 +151,7 @@ var mode = 'bill';
     if (add.pool) bits.push('pool');
     if (add.hpswap) bits.push('heat-pump hot water');
     var useStr = '~' + (annual/365).toFixed(1) + ' kWh/day';
+    var hasAdds = Math.round(use) !== Math.round(annual);
     return {
       date: new Date().toLocaleDateString('en-AU', {day:'numeric', month:'long', year:'numeric'}),
       postcode: pcVal, zone: z, currentUse: useStr,
@@ -159,6 +160,8 @@ var mode = 'bill';
       adding: bits.length ? bits.join(' · ') : 'Nothing extra',
       kw: lo + '–' + hi + ' kW', panels: '~' + pLo + '–' + pHi + ' panels',
       annualGen: gen.toLocaleString() + ' kWh', annualUse: Math.round(use).toLocaleString() + ' kWh',
+      useLabel: hasAdds ? 'Annual use, with add-ons' : 'Annual use',
+      useSuffix: hasAdds ? ' (' + Math.round(annual).toLocaleString() + ' today)' : '',
       selfPct: '~' + s + '%',
       seasonal: Math.round(dailyAvg*1.4) + ' / ' + Math.round(dailyAvg*0.6) + ' kWh',
       exportedKwh: Math.round(exported).toLocaleString(),
@@ -203,7 +206,7 @@ var mode = 'bill';
     doc.setFont('helvetica','bold'); doc.setFontSize(22); doc.setTextColor(15,18,22);
     doc.text('Your solar sizing report', M, y); y += 18;
     doc.setFont('helvetica','normal'); doc.setFontSize(10.5); doc.setTextColor(92,100,112);
-    var lede = doc.splitTextToSize('An independent estimate of the system your home needs — sized to your actual power use, not just your roof. Take it to any installer and quote against these figures.', CW);
+    var lede = doc.splitTextToSize('An independent estimate of the system your power use calls for — sized to what you actually use, not just your roof. Your roof or budget may fit less; the installer confirms what’s possible. Compare any quote against it.', CW);
     doc.text(lede, M, y); y += lede.length*13 + 12;
 
     function label(t){ doc.setFont('helvetica','bold'); doc.setFontSize(8.5); doc.setTextColor(150,158,170); doc.text(t.toUpperCase(), M, y); y += 13; }
@@ -226,12 +229,14 @@ var mode = 'bill';
     label('Recommended system');
     var hy = y, hH = 46;
     doc.setFillColor(15,18,22); doc.roundedRect(M, hy, CW, hH, 8, 8, 'F');
-    doc.setFont('helvetica','bold'); doc.setFontSize(21); doc.setTextColor(255,255,255);
+    doc.setFont('helvetica','bold'); doc.setFontSize(21); doc.setTextColor(239,159,39);
     doc.text(d.kw, M+18, hy+30);
-    doc.setFont('helvetica','normal'); doc.setFontSize(11); doc.setTextColor(199,204,211);
-    doc.text(d.panels, W-M-14, hy+30, {align:'right'});
+    doc.setFont('helvetica','bold'); doc.setFontSize(12); doc.setTextColor(255,255,255);
+    doc.text(d.panels, W-M-14, hy+26, {align:'right'});
+    doc.setFont('helvetica','normal'); doc.setFontSize(8); doc.setTextColor(160,168,180);
+    doc.text('440 W panels', W-M-14, hy+38, {align:'right'});
     y = hy + hH;
-    var stats = [['Est. annual generation',d.annualGen,' in your zone',green],['Your annual use',d.annualUse,'',ink],['Sizing basis','1.45x use',' · 440 W panels',ink]];
+    var stats = [[d.useLabel,d.annualUse,d.useSuffix,ink],['Sizing basis','+45% headroom','',ink],['Est. annual generation',d.annualGen,' in your zone',green]];
     var sW = CW/3, sH = 42;
     doc.setDrawColor(224,228,235); doc.rect(M, y, CW, sH);
     for (var j=1;j<3;j++) doc.line(M+sW*j, y, M+sW*j, y+sH);
@@ -241,19 +246,19 @@ var mode = 'bill';
       doc.text(stats[k][0].toUpperCase(), sx, y+16);
       doc.setFont('helvetica','bold'); doc.setFontSize(12.5); doc.setTextColor(stats[k][3][0],stats[k][3][1],stats[k][3][2]);
       doc.text(stats[k][1], sx, y+32);
-      if (stats[k][2]){ var vw = doc.getTextWidth(stats[k][1]); doc.setFont('helvetica','normal'); doc.setFontSize(8.5); doc.setTextColor(92,100,112); doc.text(stats[k][2], sx+vw+3, y+32); }
+      if (stats[k][2]){ var vw = doc.getTextWidth(stats[k][1]); doc.setFont('helvetica','normal'); doc.setFontSize(8.5); doc.setTextColor(92,100,112); doc.text(stats[k][2], sx+vw+8, y+32); }
     }
     y += sH + 18;
 
-    label('What to raise with your installer');
+    label('What to raise with your installer'); y += 8;
     var qs = [
       ['Meter the house while they’re here.', 'Ask them to fit energy monitoring during the install, so you can see what your home and big appliances actually use — not just what the panels make. Doing it now saves a call-out later.'],
-      ['Don’t get locked into one app.', 'Will you be stuck inside one brand’s app, or can you get at your own data and add other smart gear later? Closed systems box you in.'],
-      ['Set the big loads to run on solar.', 'Can your hot water — and later your EV and aircon — be set to run in the middle of the day on your own solar, instead of at night off the grid? Cheap to leave the wiring ready now.'],
-      ['Room to grow — battery, panels, EV.', 'A battery-ready inverter, space to add more panels, and a spot at the switchboard for an EV charger. Leaving room now beats swapping gear out later.'],
+      ['Know your panel angles — and why they were chosen.', 'Which way your panels face and their tilt isn’t a detail — it sets how much you generate and when (east = morning, west = afternoon, north = most over a year). A tight roof sometimes forces a compromise, and that can be fine — but it should be a deliberate choice matched to how you use power, not just “wherever they fit.” Ask why yours are laid out that way, and get it in writing. It’s also the kind of thing that pays off later: with your angles on record, you (or a smart tool) can track and forecast your solar over time, and time your big loads to when the power’s actually there.'],
+      ['Pick the inverter as carefully as the panels.', 'The inverter is the brain of the system — it decides whether you can see your data, add a battery or EV later, and run big loads on your solar, or whether you’re stuck with just the brand’s app. Ask whether it speaks an open standard — SunSpec Modbus, or a local API — so you’re not boxed in.'],
+      ['Set it up for what you’ll add later.', 'Most people add a battery, more panels, or an EV charger within a few years. Ask for a battery-ready inverter, room to add more panels, and a spare slot at the switchboard for a charger. Building that in now is cheap — retrofitting it later means paying twice.'],
       ['The accredited installer on the roof.', 'Will the accredited (SAA) installer be on site for the whole job, not just the final sign-off? Your rebate and the quality both depend on it.'],
       ['Exact models, proof, and both warranties.', 'Get the exact panel and inverter model (not just “premium”), proof they’re well reviewed, and both warranties — the one on the product, and the one on its output over the years.'],
-      ['Price per kW after the rebate.', 'What’s the price per kW once the rebate’s applied? It’s the only fair way to compare quotes.']
+      ['Compare like-for-like, after all rebates.', 'Get the price per kW once every rebate’s applied — that’s the only way two quotes compare fairly, since installers show rebates differently. But only compare quotes for similar-quality gear: a cheaper price per kW means nothing if it’s lesser panels, a sealed inverter, or a rushed install.']
     ];
     var cgap = 22, colW2 = (CW - cgap)/2, tw = colW2 - 18;
     function drawItem(x, top, it){
@@ -272,13 +277,13 @@ var mode = 'bill';
     y = Math.max(yL, yR) + 6;
 
     label('For your installer');
-    var noteTxt = 'This homeowner sized their system with Powermind before shopping — an independent tool that matches system size to real household usage, not just roof area. Please quote against the figures above. Questions on the method: powermind.com.au.';
+    var noteTxt = 'These numbers are an independent estimate, sized to this home’s real yearly usage and solar zone — including the loads they’re adding — not roof area. They’re the reference point for your quote. If your site check gives a different size — roof space, shading, budget — tell the customer why. Method at powermind.com.au.';
     var nl = doc.splitTextToSize(noteTxt, CW-30);
     var nH = nl.length*12 + 26;
     doc.setFillColor(244,250,247); doc.roundedRect(M, y-4, CW, nH, 6, 6, 'F');
     doc.setFillColor(29,110,80); doc.rect(M, y-4, 3, nH, 'F');
     doc.setFont('helvetica','bold'); doc.setFontSize(8); doc.setTextColor(29,110,80);
-    doc.text('A NOTE TO THE SOLAR COMPANY', M+16, y+11);
+    doc.text('A NOTE FOR THE INSTALLER', M+16, y+11);
     doc.setFont('helvetica','normal'); doc.setFontSize(9.5); doc.setTextColor(38,48,43);
     doc.text(nl, M+16, y+25);
 
