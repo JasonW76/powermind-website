@@ -1,0 +1,288 @@
+<style>
+.report-block{margin-top:22px;padding:20px 22px;background:var(--bg-2);border:1px solid var(--line);border-radius:16px}
+.report-btn{font-size:15px}
+.report-sub{margin-top:10px;font-size:13px;color:var(--muted);line-height:1.5;max-width:60ch}
+.nl-wrap{margin-top:16px}
+.nl-toggle{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;color:var(--muted);line-height:1.5;cursor:pointer}
+.nl-toggle input{margin-top:3px;width:16px;height:16px;accent-color:var(--amber);flex:0 0 auto;cursor:pointer}
+.nl-toggle b{color:var(--ink);font-weight:600}
+.nl-email{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.nl-email input{background:var(--bg-2);border:1px solid var(--line);border-radius:10px;padding:10px 13px;color:var(--ink);font-size:14px;min-width:230px}
+.nl-note{font-size:12.5px;color:var(--muted)}
+
+/* ---- solar calculator panel (scoped so it can't collide with site styles) ---- */
+#solarcalc .instrument{position:relative;background:var(--bg-2);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 34px 90px rgba(0,0,0,.55)}
+#solarcalc .instrument::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--amber);z-index:2}
+#solarcalc .inst-head{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:16px 26px;border-bottom:1px solid var(--line);background:var(--bg-1)}
+#solarcalc .inst-head .lab{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--amber-lt);font-weight:700}
+#solarcalc .inst-head .tag{font-size:12px;color:var(--faint)}
+#solarcalc .hero{padding:24px 26px 4px;border-bottom:1px solid var(--line)}
+#solarcalc .hero-k{font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);font-weight:600}
+#solarcalc .hero-size{font-size:46px;font-weight:800;color:var(--amber-lt);line-height:1.02;margin-top:8px;letter-spacing:-.01em}
+#solarcalc .hero-size .p{font-size:19px;color:var(--muted);font-weight:600}
+#solarcalc .hero-note{font-size:14px;color:var(--muted);margin-top:11px;line-height:1.55;max-width:66ch}
+#solarcalc .hero-note a{color:var(--amber-lt);font-weight:600}
+#solarcalc .top{padding:20px 26px 6px}
+#solarcalc .headline{font-size:15.5px;color:var(--muted);line-height:1.6;max-width:70ch}
+#solarcalc .headline b{color:var(--ink);font-weight:600}
+#solarcalc .headline .amb{color:var(--amber-lt);font-weight:700}
+#solarcalc .headline .grn{color:var(--green-lt);font-weight:700}
+#solarcalc .statrow{display:flex;flex-wrap:wrap;gap:10px;padding:14px 26px 2px}
+#solarcalc .statcard{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:11px 15px;min-width:150px}
+#solarcalc .statcard .k{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);font-weight:600}
+#solarcalc .statcard .v{font-size:20px;font-weight:800;margin-top:3px;line-height:1}
+#solarcalc .statcard .v.amb{color:var(--amber-lt)}
+#solarcalc .statcard .v.ink{color:var(--ink)}
+#solarcalc .statcard .v.grn{color:var(--green-lt)}
+#solarcalc .statcard .s{font-size:11.5px;color:var(--muted);margin-top:3px}
+#solarcalc .kicker{margin:14px 26px 0;padding:15px 20px;background:rgba(29,158,117,.08);border:1px solid rgba(29,158,117,.32);border-radius:14px}
+#solarcalc .kmain{font-size:17.5px;color:var(--green-lt);font-weight:750;line-height:1.3}
+#solarcalc .ksub{font-size:13px;color:var(--muted);margin-top:5px;line-height:1.5}
+#solarcalc .ksub b{color:var(--ink)}
+#solarcalc .kfoot{color:var(--faint);font-size:11px}
+#solarcalc .kicker a{color:var(--green-lt);font-weight:700}
+#solarcalc .research{display:block;margin-top:11px;padding-top:10px;border-top:1px solid rgba(55,138,221,.28);color:var(--blue-lt);font-size:11.5px;line-height:1.55}
+#solarcalc .research a{color:var(--blue-lt);font-weight:700}
+#solarcalc .research b{color:#dcebfb}
+#solarcalc .h-title{font-size:13px;letter-spacing:.02em;color:var(--faint);text-transform:uppercase;font-weight:600;margin-bottom:9px}
+#solarcalc .toggles{display:flex;gap:12px 18px;align-items:center;flex-wrap:wrap;padding:16px 26px 4px}
+#solarcalc .tblock{display:flex;align-items:center;gap:9px}
+#solarcalc .tblock .l{font-size:12px;color:var(--muted);font-weight:600}
+#solarcalc .seg{display:inline-flex;background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:3px}
+#solarcalc .seg button{border:0;background:transparent;padding:7px 14px;border-radius:8px;font:inherit;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;white-space:nowrap}
+#solarcalc .seg button.on{background:var(--bg-2);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.4)}
+#solarcalc .seg.surplus button[data-m="used"]{color:var(--green-lt);font-weight:700}
+#solarcalc .seg.surplus button[data-m="used"].on{background:rgba(29,158,117,.20);color:var(--green-lt)}
+#solarcalc .seg.surplus button[data-m="exported"].on{background:var(--bg-2);color:var(--ink)}
+#solarcalc .tblock.right{margin-left:auto}
+#solarcalc .chartbox{padding:8px 20px 0}
+#solarcalc svg{display:block;width:100%;height:auto}
+#solarcalc .legend{display:flex;flex-wrap:wrap;gap:14px 20px;padding:8px 26px 6px;font-size:12.5px;color:var(--muted)}
+#solarcalc .legend span{display:inline-flex;align-items:center;gap:7px}
+#solarcalc .sw{width:14px;height:11px;border-radius:3px;flex:0 0 auto}
+#solarcalc .sw.line{height:0;border-top:2.6px solid var(--ink);border-radius:0;width:16px}
+#solarcalc .inputs{border-top:1px solid var(--line);margin-top:10px;padding:22px 26px 24px;display:grid;grid-template-columns:1fr 1fr;gap:20px 30px;background:var(--bg-1)}
+#solarcalc .field{margin:0}
+#solarcalc .field label{display:block;font-size:12.5px;font-weight:600;color:var(--muted);margin-bottom:8px}
+#solarcalc .field label .f{color:var(--faint);font-weight:500}
+#solarcalc .field input[type=text],#solarcalc .field select{width:100%;background:var(--bg);border:1px solid var(--line);color:var(--ink);border-radius:10px;padding:11px 12px;font-size:15px;font-family:inherit}
+#solarcalc .field input[type=text].bad{border-color:#c65b50}
+#solarcalc .field input:focus,#solarcalc .field select:focus{outline:none;border-color:var(--amber)}
+#solarcalc .field input[type=range]{width:100%;accent-color:var(--amber);background:transparent}
+#solarcalc .hint{font-size:11.5px;color:var(--faint);margin-top:6px;line-height:1.45}
+#solarcalc .segfull{display:flex;background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:3px;gap:2px}
+#solarcalc .segfull button{flex:1;border:0;background:transparent;padding:9px 4px;border-radius:8px;font:inherit;font-size:12.5px;font-weight:600;color:var(--muted);cursor:pointer}
+#solarcalc .segfull button.on{background:var(--bg-2);color:var(--ink)}
+#solarcalc .chips{display:flex;gap:8px;flex-wrap:wrap}
+#solarcalc .chip{padding:9px 13px;background:var(--bg);border:1px solid var(--line);border-radius:20px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;transition:.14s;display:inline-flex;align-items:center;gap:7px;user-select:none}
+#solarcalc .chip .dot{width:8px;height:8px;border-radius:50%;background:var(--faint)}
+#solarcalc .chip.on{border-color:var(--amber);color:var(--amber-lt);background:rgba(239,159,39,.08)}
+#solarcalc .chip.on .dot{background:var(--amber)}
+#solarcalc .span2{grid-column:1 / -1}
+#solarcalc .evwrap{margin-top:12px;display:none}
+#solarcalc .evwrap.show{display:block}
+#solarcalc .foot{padding:18px 26px 22px;border-top:1px solid var(--line);font-size:11.5px;color:var(--faint);line-height:1.55}
+#solarcalc .foot b{color:var(--muted)}
+#solarcalc .foot .tog{color:var(--amber-lt);cursor:pointer;font-weight:600}
+#solarcalc .foot .full{display:none;margin-top:8px}
+#solarcalc .foot .full.show{display:block}
+@media(max-width:640px){
+  #solarcalc .inst-head{padding:14px 16px}
+  #solarcalc .hero,#solarcalc .top,#solarcalc .toggles,#solarcalc .foot{padding-left:16px;padding-right:16px}
+  #solarcalc .statrow,#solarcalc .legend{padding-left:16px;padding-right:16px}
+  #solarcalc .kicker{margin-left:16px;margin-right:16px}
+  #solarcalc .chartbox{padding:8px 8px 0}
+  #solarcalc .inputs{grid-template-columns:1fr;padding:18px 16px 20px;gap:18px}
+  #solarcalc .hero-size{font-size:36px}
+  #solarcalc .statcard{min-width:calc(50% - 5px);flex:1 1 calc(50% - 5px)}
+  #solarcalc .tblock.right{margin-left:0}
+  #solarcalc .span2{grid-column:auto}
+}
+</style>
+
+<header class="phead">
+    <div class="glow glow-amber"></div>
+    <div class="wrap">
+      <div class="eyebrow amber">Solar sizing calculator · free · no sign-up</div>
+      <h1>What size solar system do I need?</h1>
+      <p class="sub">Slide to the size you're weighing up and watch, on a real day for your postcode, how much of that solar your home would actually use — and how much more you'd keep by pointing your big loads at the sun. No recommendation, no sign-up: the data's here, you decide.</p>
+    </div>
+  </header>
+
+  <section class="blk">
+    <div class="wrap">
+      <div class="kicker">The sizing model</div>
+      <h2 class="big" style="margin-bottom:8px">Size it on real data — then see what you'd keep.</h2>
+      <p class="lead" style="margin-bottom:20px">Solar generation from Bureau of Meteorology satellite data for your postcode; heating and cooling from BoM temperatures scaled to your home's efficiency; usage from the loads you pick and, if you like, calibrated to your own bill. Move the size and everything updates live.</p>
+
+      <div id="solarcalc">
+<div class="instrument">
+  <div class="inst-head"><span class="lab">Solar sizing calculator</span><span class="tag" id="tag">postcode 2600 · Barton, ACT</span></div>
+
+  <div class="hero">
+    <div class="hero-k">The size you're weighing up</div>
+    <div class="hero-size"><span id="kwBig">6.6</span> kW <span class="p">· ≈ <span id="panelBig">15</span> panels</span></div>
+    <div class="hero-note" id="heroNote"></div>
+  </div>
+
+  <div class="top">
+    <div class="h-title" id="htitle">A typical summer day</div>
+    <p class="headline" id="headline"></p>
+    <p class="usednote" id="usednote" style="display:none;font-size:12.5px;color:var(--amber-lt);margin-top:10px;line-height:1.5"></p>
+  </div>
+
+  <div class="statrow" id="statrow"></div>
+  <div class="kicker" id="kicker"></div>
+
+  <div class="toggles">
+    <div class="tblock"><span class="l">Season</span>
+      <div class="seg" id="seasonSeg"><button data-s="summer" class="on">Summer</button><button data-s="winter">Winter</button></div></div>
+    <div class="tblock"><span class="l">Day</span>
+      <div class="seg" id="daySeg"><button data-t="average" class="on">Average</button><button data-t="clear">Clear</button></div></div>
+    <div class="tblock right"><span class="l">Your surplus</span>
+      <div class="seg surplus" id="surSeg"><button data-m="exported" class="on">Exported</button><button data-m="used">Surplus used</button></div></div>
+  </div>
+
+  <div class="chartbox"><svg id="chart" viewBox="0 0 820 340" role="img" aria-label="solar day"></svg></div>
+  <div class="legend">
+    <span><i class="sw" style="background:var(--amber)"></i> Solar you use</span>
+    <span><i class="sw" id="swExp"></i> Sent to the grid for cents</span>
+    <span><i class="sw" style="background:var(--blue)"></i> Bought from the grid</span>
+    <span><i class="sw line"></i> Your home's use</span>
+  </div>
+
+  <div class="inputs">
+    <div class="field">
+      <label>Your postcode <span class="f">— sets your sun &amp; climate</span></label>
+      <input type="text" id="pc" inputmode="numeric" maxlength="4" value="2600">
+      <div class="hint" id="pcHint">Barton, ACT · NatHERS zone 24</div>
+    </div>
+    <div class="field">
+      <label>Your household</label>
+      <div class="segfull" id="people">
+        <button data-d="5">1</button><button data-d="7">2</button><button data-d="8.5">3</button>
+        <button data-d="10" class="on">4</button><button data-d="12">5+</button></div>
+      <div class="hint">people at home</div>
+    </div>
+    <div class="field span2">
+      <label>How efficient is your home? <span class="f">— sets how much heating &amp; cooling costs</span></label>
+      <div class="segfull" id="eff">
+        <button data-star="2">Older / draughty</button>
+        <button data-star="3.5" class="on">Typical</button>
+        <button data-star="6">Newer / insulated</button>
+        <button data-star="8">High-performance</button></div>
+      <div class="hint" id="effHint">Typical existing home (~3.5 star). Most Australian homes sit here.</div>
+    </div>
+    <div class="field">
+      <label>Hot water</label>
+      <select id="hw"><option value="heatpump" selected>Heat pump</option><option value="resistive">Electric (tank)</option><option value="gas">Gas</option><option value="solar">Solar hot water</option></select>
+    </div>
+    <div class="field">
+      <label>System size you're weighing up</label>
+      <input type="range" id="kw" min="2" max="13" step="0.44" value="6.6">
+      <div class="hint" id="kwHint">6.6 kW · ≈ 15 panels (440 W)</div>
+    </div>
+    <div class="field span2">
+      <label>Big loads you have</label>
+      <div class="chips">
+        <span class="chip on" data-l="heating"><i class="dot"></i>Reverse-cycle heating</span>
+        <span class="chip on" data-l="cooling"><i class="dot"></i>Aircon (cooling)</span>
+        <span class="chip on" data-l="ev"><i class="dot"></i>EV</span>
+        <span class="chip" data-l="pool"><i class="dot"></i>Pool</span>
+      </div>
+      <div class="evwrap show" id="evwrap">
+        <label style="font-size:12px;color:var(--muted);font-weight:600;display:block;margin:2px 0 7px">Is the car usually home in the daytime?</label>
+        <div class="segfull" id="carhome" style="max-width:360px">
+          <button data-c="0.15">Rarely</button><button data-c="0.5" class="on">Some days</button><button data-c="0.85">Most days</button></div>
+      </div>
+    </div>
+    <div class="field span2">
+      <label><span class="chip" id="billToggle" data-l="bill" style="margin-right:6px"><i class="dot"></i>Refine with a recent bill</span> <span class="f">optional — makes it your real numbers</span></label>
+      <div id="billwrap" style="display:none;gap:12px;align-items:center;flex-wrap:wrap;margin-top:4px">
+        <span class="hint" style="margin:0">Average daily use from the bill:</span>
+        <input type="text" id="billv" inputmode="decimal" style="width:90px" placeholder="kWh/day">
+        <div class="segfull" id="billseason" style="max-width:320px">
+          <button data-s="summer">Summer</button><button data-s="autumn">Autumn</button>
+          <button data-s="winter">Winter</button><button data-s="spring" class="on">Spring</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <b>How we work this out.</b> Solar generation from Bureau of Meteorology satellite data for your postcode; heating &amp; cooling from BoM Jan/July temperatures, scaled to your home's efficiency using NatHERS climate-zone star bands; usage built from the loads you pick, sized from Australian data (DCCEEW, AER, the Electric Vehicle Council) and calibrated to your bill if you enter one. <span class="tog" id="footTog">More ▾</span>
+    <div class="full" id="footFull">
+      <p style="margin-bottom:9px"><b>What the graph shows.</b> An <b>average</b> day for your postcode — the mean across clear and cloudy days — because that's the honest basis for sizing and for your yearly figures. The <b>Clear</b> toggle is for information only: a bright day makes more solar but you use a smaller share of it. Day length and sun position shift with your latitude, in both summer and winter.</p>
+      <p style="margin-bottom:9px"><b>When loads run (typical patterns).</b> Aircon: afternoon into evening, off overnight. Heating: morning and evening. EV: overnight, unless you move it into the daytime. Hot water &amp; pool: overnight on a timer, or shifted into the sun. Your own timing may differ — so we calibrate the daily and yearly totals to your bill rather than relying on the exact hours.</p>
+      <p style="margin-bottom:0"><b>The basics.</b> Panel counts assume 440 W panels. Figures are estimates (usually within ~15–20%) to help you make decisions — not a quote or a guarantee of savings. Your roof, shading, tariff and habits all move the real number, so confirm the right system with a CEC-accredited installer before you buy.</p>
+    </div>
+  </div>
+</div>
+      </div>
+
+      <div class="report-block">
+        <button type="button" id="dlReport" class="btn btn-amber report-btn">Download your report (PDF) ↓</button>
+        <p class="report-sub">A branded, one-page summary of the size you've landed on and these numbers — plus the questions to put to any installer. Take it along and quote against it.</p>
+        <div id="nlWrap" class="nl-wrap" hidden>
+          <label class="nl-toggle"><input type="checkbox" id="nlOn"> <span>Also send me <b>Behind the Meter</b> — a weekly, plain-English Australian home-energy briefing. One email a week, no spam, unsubscribe anytime.</span></label>
+          <div id="nlEmailRow" class="nl-email" hidden>
+            <input type="email" id="nlEmail" placeholder="you@email.com" autocomplete="email" />
+            <span class="nl-note" id="nlNote"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="blk alt">
+    <div class="wrap">
+      <div class="kicker">The catch most calculators skip</div>
+      <h2 class="big">The size is only half the answer.</h2>
+      <p class="lead">Getting the size right matters — but even a perfectly-sized system sends most of its power to the grid for cents, because it's made at noon while your home draws power morning and night. A kilowatt-hour of your own solar, used at home, is worth several times more than one exported.</p>
+      <div class="fivex">
+        <div class="cell"><div class="n amberN">4–10¢</div><div class="l">a typical feed-in tariff — what you're paid to export a kWh</div></div>
+        <div class="mid"><b>vs</b></div>
+        <div class="cell"><div class="n blueN">28–48¢</div><div class="l">a typical peak rate — what you pay to buy the same kWh back</div></div>
+      </div>
+      <p class="lead" style="margin-top:26px">So the real question isn't only what size — it's how much of it you keep. That's what Powermind is built to do: shift your hot water, car and aircon onto your surplus, automatically.</p>
+      <div class="ctas" style="margin-top:26px">
+        <a class="btn btn-amber" href="/app">See how Powermind captures it →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <div class="wrap">
+      <div class="kicker">The evidence</div>
+      <h2 class="big">These aren't our numbers. They're the research.</h2>
+      <p class="lead">The sizing above, and the case for using your solar rather than exporting it, both rest on Australian energy research. A few of the voices behind it:</p>
+      <div class="quotes">
+        <blockquote class="q g">
+          <p>&ldquo;More than half of Australian homes have an electric water heater with a storage tank — a thermal battery that often stores more energy than a home battery.&rdquo;</p>
+          <cite>University of New South Wales — <a href="https://www.unsw.edu.au/newsroom/news/2024/11/hot-water-heaters-daytime-solar" target="_blank" rel="noopener">Hot water heaters &amp; daytime solar</a>, 2024</cite>
+        </blockquote>
+        <blockquote class="q">
+          <p>&ldquo;Close to 50% of water heating was successfully shifted from night to day. Most householders reported no noticeable change to their hot water service — only 0.3% of households opted out.&rdquo;</p>
+          <cite>UNSW SolarShift trial, 18,000 South Australian households (Yildiz &amp; Saberi) — funded by <a href="https://arena.gov.au/assets/2023/07/demand-flexibility-portfolio-retrospective-analysis-report.pdf" target="_blank" rel="noopener">ARENA</a> &amp; RACE for 2030</cite>
+        </blockquote>
+        <blockquote class="q b">
+          <p>&ldquo;Before spending $10,000+ on a battery, consider whether you can shift existing loads to solar hours. Shifting 5–10 kWh of daily load into solar hours effectively eliminates curtailment for most 6.6 kW systems — and costs nothing.&rdquo;</p>
+          <cite>Gridly — <a href="https://www.gridly.com.au/blog/solar-export-limits-grid-connection-australia/" target="_blank" rel="noopener">Australian solar export economics</a>, 2026</cite>
+        </blockquote>
+      </div>
+
+      <div class="srclist">
+        <h3>Where the numbers come from</h3>
+        <div class="src"><div class="inst">CSIRO &amp; AEMO</div><div class="desc">4.2 million rooftop systems and 26.8 GW installed; distributed solar, batteries and EVs projected as the largest slice of the grid by 2050. <a href="https://www.aemo.com.au/energy-systems/major-publications/integrated-system-plan-isp/2024-integrated-system-plan-isp" target="_blank" rel="noopener">2024 Integrated System Plan</a>.</div></div>
+        <div class="src"><div class="inst">UNSW SPREE</div><div class="desc">The SolarShift project: excess solar can meet ~48% of daily hot water demand at 100% customer comfort. <a href="https://www.pv-magazine-australia.com/2021/09/06/unsw-study-channelling-rooftop-pv-into-water-heating-is-a-residential-super-saver/" target="_blank" rel="noopener">PV Magazine</a>.</div></div>
+        <div class="src"><div class="inst">ARENA</div><div class="desc">Demand Flexibility Portfolio: the largest household opportunities are hot water, air-conditioning and pool pumps — &ldquo;shift heating into the middle of the day.&rdquo;</div></div>
+        <div class="src"><div class="inst">Aust. Government</div><div class="desc">YourHome guide endorses pre-conditioning: &ldquo;use air-conditioning to cool the mass during the day without cost or emissions.&rdquo; <a href="https://www.yourhome.gov.au/passive-design/thermal-mass" target="_blank" rel="noopener">yourhome.gov.au</a>.</div></div>
+        <div class="src"><div class="inst">ANU</div><div class="desc">Battery Storage &amp; Grid Integration Program (Dr Bjorn Sturmberg): residential self-consumption measured rising from 34% to 58% with coordinated storage.</div></div>
+        <div class="src"><div class="inst">Climate Council</div><div class="desc">2025 Battery Boom report on household solar-plus-storage economics and the widening export-vs-import gap.</div></div>
+      </div>
+
+      <div class="ctas" style="margin-top:36px">
+        <a class="btn btn-amber" href="/app#beta">Become a foundation user →</a>
+        <a class="btn btn-ghost" href="/app">See the app</a>
+      </div>
+    </div>
+  </section>
