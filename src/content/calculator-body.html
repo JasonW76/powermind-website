@@ -98,6 +98,18 @@
   #solarcalc .tblock.right{margin-left:0}
   #solarcalc .span2{grid-column:auto}
 }
+/* --- inverter insert (quiet reactive note under the result) --- */
+#solarcalc .invnote{margin:16px 0 2px;padding-top:15px;border-top:1px solid rgba(255,255,255,.08)}
+#solarcalc .invline{margin:0;font-size:12.5px;line-height:1.62;color:var(--muted)}
+#solarcalc .invline .ikw{color:var(--amber-lt);font-weight:600}
+#solarcalc .invwhy{color:var(--amber);font-weight:600;cursor:pointer;background:none;border:0;font:inherit;font-size:12.5px;padding:0;white-space:nowrap}
+#solarcalc .invwhy:hover{text-decoration:underline}
+#solarcalc .invexp{max-height:0;overflow:hidden;transition:max-height .3s ease}
+#solarcalc .invexp.open{max-height:340px}
+#solarcalc .invexp-in{margin-top:11px;padding:12px 13px;background:#1e2530;border-radius:11px;font-size:12px;line-height:1.62;color:var(--muted)}
+#solarcalc .invexp-in b{color:var(--ink)}
+#solarcalc .invscope{margin:13px 0 0;font-size:11.5px;line-height:1.55;color:rgba(240,237,230,.42)}
+#solarcalc .invscope a{color:var(--amber-lt);text-decoration:none;border-bottom:1px solid rgba(250,199,117,.4)}
 </style>
 
 <header class="phead">
@@ -149,6 +161,12 @@
     <span><i class="sw" id="swExp"></i> Sent to the grid for cents</span>
     <span><i class="sw" style="background:var(--blue)"></i> Bought from the grid</span>
     <span><i class="sw line"></i> Your home's use</span>
+  </div>
+
+  <div class="invnote" id="invNote">
+    <p class="invline"><span id="invSent"></span> <button type="button" class="invwhy" id="invWhy">&#9432; Why that matters</button></p>
+    <div class="invexp" id="invExp"><div class="invexp-in">Your inverter is the bottleneck between your panels and the grid. Australian rules let installers fit panels up to <b>133%</b> of the inverter&rsquo;s size &mdash; that&rsquo;s why &ldquo;6.6&nbsp;kW&rdquo; systems run a 5&nbsp;kW inverter. Most networks also cap how much you can export at <b>around 5&nbsp;kW per phase</b> (and some states now throttle it in real time). So a typical system already makes more than it&rsquo;s allowed to send out &mdash; meaning the extra is only worth anything if <b>you use it at home</b>. That&rsquo;s exactly what this tool estimates.</div></div>
+    <p class="invscope">This tool estimates your system size and how much of your solar you&rsquo;ll use &mdash; not full system design. For inverter choice, roof layout and panel placement, talk to your installer or a tool like <a href="https://www.sunspot.org.au/" target="_blank" rel="noopener">SunSPOT</a>.</p>
   </div>
 
   <div class="inputs">

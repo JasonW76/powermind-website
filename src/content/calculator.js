@@ -155,6 +155,16 @@ function draw(){
       '<span class="research"><b>Backed by Australian field research:</b> UNSW’s <a href="https://arena.gov.au/assets/2023/07/demand-flexibility-portfolio-retrospective-analysis-report.pdf" target="_blank" rel="noopener">SolarShift</a> trial (18,000 SA homes) shifted close to half of household hot water from night into the sun at full comfort — only 0.3% opted out; ANU’s Battery Storage &amp; Grid Integration program measured home self-consumption rising <b>34% → 58%</b> under coordinated control.</span>';
   } else un.style.display='none';
   document.getElementById('tag').textContent='postcode '+st.pc+' · '+(rec(st.pc)[0]||'');
+
+  // inverter insert — reactive, keyed off the array size only (133% CEC oversize rule; ~5kW/phase export)
+  var _iv=[3,5,6,8.2,10,13.3],_need=st.kw/1.33,_inv=_iv[_iv.length-1];
+  for(var _i=0;_i<_iv.length;_i++){if(_iv[_i]>=_need-0.001){_inv=_iv[_i];break;}}
+  var _fk=function(v){return (Math.round(v*10)/10).toString().replace(/\.0$/,'');};
+  var _three=_inv>5,
+      _sent='This sizes your panels, not your inverter — a <span class="ikw">'+_fk(st.kw)+' kW</span> system typically runs a <span class="ikw">~'+_fk(_inv)+' kW</span> one'+
+        (_three?', above the 5 kW single-phase cap, so you’d likely need <span class="ikw">three-phase power</span>.'
+               :'. Most homes can export about 5 kW, so a system this size already sits near the cap.');
+  var _is=document.getElementById('invSent');if(_is)_is.innerHTML=_sent;
 }
 
 /* ================= wiring ================= */
@@ -177,6 +187,7 @@ document.getElementById('billv').addEventListener('input',function(){st.billv=pa
 document.getElementById('billseason').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;st.billseason=b.dataset.s;[].forEach.call(this.children,function(c){c.classList.toggle('on',c===b)});draw();});
 document.getElementById('footTog').onclick=function(){var f=document.getElementById('footFull');f.classList.toggle('show');this.textContent=f.classList.contains('show')?'Less ▴':'More ▾';};
 document.getElementById('swExp').style.backgroundImage='repeating-linear-gradient(45deg,rgba(239,159,39,.18) 0 3px,#EF9F27 3px 5px)';
+document.getElementById('invWhy').onclick=function(){document.getElementById('invExp').classList.toggle('open');};
 draw();  // starts at a neutral 6.6 kW (the common Australian size) — a starting point, not a recommendation
 
 /* =====================================================================
