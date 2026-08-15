@@ -1,0 +1,93 @@
+---
+// Behind the Meter — subscribe form.
+//
+// Posts straight to Ghost's members magic-link endpoint, so signing up emails the
+// reader a one-click confirmation and adds them as a member. The Behind the Meter
+// newsletter has `subscribe_on_signup: true`, so confirmed members are put on the
+// newsletter automatically — no newsletter id needed here.
+//
+// Requires in Ghost: Settings → Membership → "Anyone can subscribe" (free members on).
+//
+// ⚠️ This MUST post to the custom domain (news.powermind.com.au), not the .ghost.io host.
+// Verified 2026-08-14: /members/api/send-magic-link/ answers directly on the custom domain,
+// but 301s on the-molonglo.ghost.io — and a redirect drops the POST body, so signups would
+// fail silently. This is the opposite of the Content API in lib/ghost.js. Don't "tidy" them
+// into one constant.
+const { compact = false } = Astro.props;
+const MEMBERS_URL = (import.meta.env.GHOST_MEMBERS_URL || "https://news.powermind.com.au").replace(/\/$/, "");
+---
+<div class="subcta">
+  <h4>Get Behind the Meter, free</h4>
+  <p>
+    {compact
+      ? "Australia's weekly home-energy briefing, in your inbox."
+      : "Australia's weekly home-energy briefing, in your inbox. One email a week, no spam."}
+  </p>
+  <form class="sub" data-ghost={MEMBERS_URL} novalidate>
+    {/* honeypot — hidden from people, catches naive bots */}
+    <div class="hp" aria-hidden="true">
+      <input type="text" name="website" tabindex="-1" autocomplete="off" />
+    </div>
+    <input
+      type="email"
+      name="email"
+      placeholder="you@email.com"
+      autocomplete="email"
+      aria-label="Your email address"
+      required
+    />
+    <button class="btn-teal" type="submit">Subscribe</button>
+    <p class="sub-msg" role="status" aria-live="polite"></p>
+  </form>
+</div>
+
+<script>
+  document.querySelectorAll("form.sub").forEach((form) => {
+    const msg = form.querySelector(".sub-msg");
+    const btn = form.querySelector("button[type=submit]");
+    const input = form.querySelector('input[name="email"]');
+    const hp = form.querySelector('input[name="website"]');
+    const base = form.dataset.ghost;
+    if (!msg || !btn || !input || !base) return;
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (hp && hp.value) return; // bot filled the honeypot — silently drop
+
+      const email = (input.value || "").trim();
+      if (!email || !input.checkValidity()) {
+        form.dataset.state = "error";
+        msg.textContent = "That email doesn’t look right — mind checking it?";
+        return;
+      }
+
+      const label = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = "Sending…";
+      form.dataset.state = "";
+      msg.textContent = "";
+
+      try {
+        const res = await fetch(base + "/members/api/send-magic-link/", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email,
+            emailType: "subscribe",
+            labels: ["behind-the-meter"],
+          }),
+        });
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        form.dataset.state = "ok";
+        msg.textContent = "Check your inbox — we’ve sent a confirmation link to " + email + ".";
+        input.value = "";
+      } catch (err) {
+        form.dataset.state = "error";
+        msg.textContent = "Something went wrong at our end. Try again, or email jason@futerra.ai.";
+      } finally {
+        btn.disabled = false;
+        btn.textContent = label;
+      }
+    });
+  });
+</script>

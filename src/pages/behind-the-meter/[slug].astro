@@ -1,0 +1,43 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import SubscribeForm from "../../components/SubscribeForm.astro";
+import "../../styles/btm.css";
+import { getPosts, getPost, fmtDate } from "../../lib/ghost.js";
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((p) => ({ params: { slug: p.slug } }));
+}
+
+const { slug } = Astro.params;
+const post = await getPost(slug);
+if (!post) return Astro.redirect("/behind-the-meter");
+const initial = (post.author || "P").trim().charAt(0).toUpperCase();
+const meta = `${fmtDate(post.published_at)}${post.reading_time ? ` · ${post.reading_time} min read` : ""}`;
+---
+<Layout
+  title={`${post.title} | Behind the Meter`}
+  description={post.dek}
+  active="btm">
+  <div class="btm">
+    <div class="btm-wrap"><div class="article">
+      <a class="back" href="/behind-the-meter">← Behind the Meter</a>
+
+      <div class="a-hero">
+        <div class="ph">{post.feature_image && <img src={post.feature_image} alt="" />}<div class="tint"></div><div class="scrim"></div></div>
+        <div class="inner"><span class="cat">{post.tag}</span><h1>{post.title}</h1></div>
+      </div>
+
+      <div class="a-meta">
+        <div class="avatar">{initial}</div>
+        <div><div class="who">{post.author}</div><div class="sub2">{meta}</div></div>
+      </div>
+
+      {post.dek && <p class="a-dek">{post.dek}</p>}
+
+      <article class="prose" set:html={post.html} />
+
+      <SubscribeForm compact />
+    </div></div>
+  </div>
+</Layout>

@@ -1,0 +1,109 @@
+/* Behind the Meter — reading experience (Option B, approved).
+   Scoped under .btm so it never collides with the site's global.css. */
+.btm{
+  --teal:#48C4B0; --teal-lt:#8fe0d2; --cream:#f1efe9; --read:#d9d6ce;
+  --faint:rgba(255,255,255,.34); --line-2:#273040; --read-w:680px; --btm-maxw:1080px;
+}
+.btm-wrap{max-width:var(--btm-maxw);margin:0 auto;padding:0 26px}
+
+/* ---- reusable photo treatment (dark grade + teal unify + legibility scrim) ---- */
+.btm .ph{position:absolute;inset:0;background:linear-gradient(135deg,#12202b,#0b0f14)}
+.btm .ph img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.9) contrast(1.06) brightness(.82)}
+.btm .ph .scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,12,15,.05) 0%,rgba(10,12,15,.15) 45%,rgba(10,12,15,.82) 100%)}
+.btm .ph .tint{position:absolute;inset:0;background:radial-gradient(130% 120% at 18% 8%,rgba(72,196,176,.16),transparent 55%);mix-blend-mode:screen}
+
+/* ---- masthead ---- */
+.btm .masthead{padding:40px 0 22px;border-bottom:1px solid var(--line)}
+.btm .mast-row{display:flex;align-items:center;gap:18px}
+.btm .mark{width:52px;height:52px;flex:0 0 auto}
+.btm .mast-txt .wm{font-weight:800;letter-spacing:.16em;font-size:27px;color:var(--cream)}
+.btm .mast-txt .tl{color:var(--teal);font-weight:500;font-size:14.5px;margin-top:4px}
+
+.btm .ed-head{padding:30px 0 4px}
+.btm .ed-title{display:flex;align-items:flex-end;gap:14px;margin-top:2px;flex-wrap:wrap}
+.btm .ed-title .iss{font-size:26px;font-weight:800;color:var(--cream);letter-spacing:-.01em}
+.btm .ed-title .date{color:var(--muted);font-size:14.5px;padding-bottom:3px}
+.btm .ed-intro{color:var(--muted);font-size:15.5px;margin-top:11px;max-width:70ch;line-height:1.6;padding-bottom:18px;border-bottom:1px solid var(--line)}
+
+/* ---- flagship ---- */
+.btm .flag{position:relative;border:1px solid var(--line-2);border-radius:18px;overflow:hidden;margin:22px 0 10px;min-height:420px;display:flex;align-items:flex-end;transition:.18s}
+.btm .flag:hover{border-color:var(--teal);box-shadow:0 26px 70px rgba(0,0,0,.6)}
+.btm .flag .fb{position:relative;padding:30px 32px;max-width:660px}
+.btm .flag .cat{color:var(--teal-lt);font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:700}
+.btm .flag .lead{color:var(--amber-lt);font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;margin-left:10px}
+.btm .flag h2{font-size:31px;line-height:1.14;color:#fff;font-weight:800;letter-spacing:-.015em;margin-top:12px;text-shadow:0 2px 20px rgba(0,0,0,.5)}
+.btm .flag p{color:rgba(255,255,255,.82);font-size:15.5px;margin-top:12px;line-height:1.55;max-width:56ch}
+.btm .flag .m{margin-top:14px;color:rgba(255,255,255,.6);font-size:12.5px}
+.btm .flag .r{margin-top:12px;color:var(--teal-lt);font-weight:700;font-size:14px}
+
+/* ---- cards ---- */
+.btm .sec-label{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);font-weight:600;margin:30px 0 14px}
+.btm .also-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px}
+.btm .card{background:var(--bg-1,#0d1117);border:1px solid var(--line);border-radius:15px;overflow:hidden;transition:.16s;display:flex;flex-direction:column}
+.btm .card:hover{transform:translateY(-3px);border-color:var(--line-2);box-shadow:0 18px 44px rgba(0,0,0,.5)}
+.btm .card .cov{position:relative;height:158px;overflow:hidden}
+.btm .card .cov .cat{position:absolute;left:14px;bottom:12px;z-index:2;font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:#fff;background:rgba(0,0,0,.4);padding:5px 10px;border-radius:20px;backdrop-filter:blur(3px)}
+.btm .card-b{padding:15px 17px 18px;display:flex;flex-direction:column;flex:1}
+.btm .card-b h3{font-size:17px;line-height:1.28;color:var(--ink);font-weight:700;letter-spacing:-.01em}
+.btm .card-b p{color:var(--muted);font-size:13.5px;margin-top:7px;line-height:1.5;flex:1}
+.btm .card-meta{margin-top:12px;color:var(--faint);font-size:12px}
+
+/* ---- subscribe strip ---- */
+/* ---- empty state (no posts yet — see lib/ghost.js, mock is DEV-only) ---- */
+.btm .btm-empty{max-width:var(--read-w);margin:38px auto 0;padding:34px 30px;background:var(--bg-1,#0d1117);border:1px solid var(--line-2);border-radius:16px;position:relative;overflow:hidden}
+.btm .btm-empty::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--teal)}
+.btm .btm-empty h2{font-size:24px;line-height:1.2;font-weight:800;color:var(--cream);letter-spacing:-.01em}
+.btm .btm-empty p{margin-top:14px;font-size:15.5px;line-height:1.7;color:var(--read)}
+.btm .btm-empty .btm-empty-cta{color:var(--teal-lt);font-weight:600}
+
+.btm .subcta{max-width:var(--read-w);margin:40px auto 60px;background:var(--bg-1,#0d1117);border:1px solid var(--line-2);border-radius:16px;padding:24px;position:relative;overflow:hidden}
+.btm .subcta::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--teal)}
+.btm .subcta h4{font-size:18px;color:var(--cream);font-weight:700}
+.btm .subcta p{font-size:14px;color:var(--muted);margin-top:6px}
+.btm .sub{margin-top:16px;display:flex;gap:10px;flex-wrap:wrap}
+.btm .sub input{background:var(--bg-2);border:1px solid var(--line-2);border-radius:11px;padding:11px 13px;color:var(--ink);font:inherit;min-width:240px}
+.btm .btn-teal{display:inline-flex;align-items:center;gap:7px;border:0;border-radius:11px;font:inherit;font-weight:600;cursor:pointer;padding:11px 18px;font-size:14px;background:var(--teal);color:#052720}
+.btm .btn-teal[disabled]{opacity:.6;cursor:progress}
+.btm .sub .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.btm .sub-msg{flex:1 0 100%;margin:0;font-size:13.5px;line-height:1.45;min-height:0}
+.btm .sub-msg:empty{display:none}
+.btm .sub[data-state="ok"] .sub-msg{color:var(--teal-lt,#5fe0c0)}
+.btm .sub[data-state="error"] .sub-msg{color:#ff9d8a}
+
+/* ---- article ---- */
+.btm .article{padding:26px 0 0}
+.btm .back{display:inline-block;color:var(--teal);font-size:14px;font-weight:600;margin-bottom:4px}
+.btm .a-hero{position:relative;height:360px;border-radius:18px;overflow:hidden;margin:18px 0 0}
+.btm .a-hero .inner{position:relative;max-width:var(--read-w);margin:0 auto;height:100%;display:flex;flex-direction:column;justify-content:flex-end;padding:0 0 26px}
+.btm .a-hero .cat{color:var(--teal-lt);font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:700}
+.btm .a-hero h1{font-size:38px;line-height:1.12;letter-spacing:-.02em;color:#fff;margin-top:12px;font-weight:800;text-shadow:0 2px 24px rgba(0,0,0,.55);max-width:16ch}
+.btm .a-meta{max-width:var(--read-w);margin:18px auto 0;display:flex;align-items:center;gap:12px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+.btm .avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#2a3444,#151b25);border:1px solid var(--line-2);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--teal-lt);font-size:13px;flex:0 0 auto}
+.btm .a-meta .who{font-size:13.5px;color:var(--ink);font-weight:600}
+.btm .a-meta .sub2{font-size:12.5px;color:var(--faint)}
+.btm .a-dek{max-width:var(--read-w);margin:16px auto 0;font-size:19px;color:var(--muted);line-height:1.5}
+
+/* prose — styled for Ghost's real HTML output */
+.btm .prose{max-width:var(--read-w);margin:0 auto;padding:8px 0}
+.btm .prose > p{font-size:19px;line-height:1.75;color:var(--read);margin:22px 0}
+.btm .prose h2{font-size:23px;color:var(--cream);font-weight:700;margin:38px 0 4px;letter-spacing:-.01em}
+.btm .prose h3{font-size:19px;color:var(--cream);font-weight:700;margin:30px 0 4px}
+.btm .prose a{color:var(--teal-lt);border-bottom:1px solid rgba(143,224,210,.4)}
+.btm .prose strong{color:var(--ink)}
+.btm .prose ul,.btm .prose ol{margin:20px 0;padding-left:24px;color:var(--read);font-size:18px;line-height:1.7}
+.btm .prose li{margin:8px 0}
+.btm .prose blockquote{margin:32px 0;padding:4px 0 4px 24px;border-left:3px solid var(--teal);font-size:22px;line-height:1.4;color:var(--cream);font-weight:600}
+.btm .prose blockquote p{margin:0;font-size:22px;color:var(--cream)}
+.btm .prose figure{margin:30px 0}
+.btm .prose figure img,.btm .prose img{width:100%;border-radius:14px;display:block}
+.btm .prose figcaption{font-size:13px;color:var(--faint);margin-top:9px;text-align:center}
+.btm .prose hr{border:0;border-top:1px solid var(--line);margin:34px 0}
+
+@media(max-width:860px){
+  .btm .also-grid{grid-template-columns:1fr}
+  .btm .flag h2{font-size:25px}
+  .btm .flag .fb{padding:24px}
+  .btm .a-hero h1{font-size:27px}
+  .btm .a-hero{height:300px}
+  .btm .prose > p{font-size:18px}
+}

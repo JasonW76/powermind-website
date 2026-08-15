@@ -1,0 +1,73 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import SubscribeForm from "../../components/SubscribeForm.astro";
+import "../../styles/btm.css";
+import { getPosts, fmtDate } from "../../lib/ghost.js";
+
+const posts = await getPosts();
+const flagship = posts.find((p) => p.featured) || posts[0];
+const rest = posts.filter((p) => p.slug !== (flagship && flagship.slug));
+// No posts yet (or Ghost unreachable in a production build) — render an honest
+// empty state rather than a blank page. See lib/ghost.js: mock posts are DEV-only.
+const empty = posts.length === 0;
+const mark = `<svg class="mark" viewBox="0 0 120 120" fill="none"><defs><linearGradient id="metal" gradientUnits="userSpaceOnUse" x1="96" y1="24" x2="24" y2="96"><stop offset="0" stop-color="#8b8d8e"/><stop offset="0.2" stop-color="#c4c6c6"/><stop offset="0.4" stop-color="#f4f5f5"/><stop offset="0.5" stop-color="#fff"/><stop offset="0.6" stop-color="#eaebeb"/><stop offset="0.8" stop-color="#adafb0"/><stop offset="1" stop-color="#8b8d8e"/></linearGradient></defs><path d="M73 31.6 L60 20 L24 52 L24 98 L96 98 L96 52 L89 45.8" stroke="url(#metal)" stroke-width="7" stroke-linejoin="round"/><path d="M92.2 22.3 L72.2 38.4 L77.8 42.2 L70.3 54.1 L89.8 39.3 L83.8 35.6 Z" fill="url(#metal)"/></svg>`;
+---
+<Layout
+  title="Behind the Meter — Australia's weekly home energy briefing | Powermind"
+  description="Plain-English, useful writing on getting more from the solar you've already got: feed-in tariffs, hot water, self-consumption, batteries and more. A Powermind publication."
+  active="btm">
+  <div class="btm">
+    <div class="btm-wrap">
+      <div class="masthead"><div class="mast-row">
+        <Fragment set:html={mark} />
+        <div class="mast-txt"><div class="wm">BEHIND THE METER</div><div class="tl">Australia's weekly home energy briefing</div></div>
+      </div></div>
+
+      <div class="ed-head">
+        <div class="ed-title"><span class="iss">{empty ? "Coming soon" : "Latest"}</span><span class="date">honest, useful writing on home energy</span></div>
+        <p class="ed-intro">Plain-English writing on getting more from the solar you&rsquo;ve already got &mdash; what your surplus is worth, which loads to shift, and when a battery actually earns its place.</p>
+      </div>
+
+      {empty && (
+        <div class="btm-empty">
+          <h2>The first issue lands soon.</h2>
+          <p>Behind the Meter is Australia&rsquo;s weekly home energy briefing &mdash; written by Jason, an
+             environmental scientist in Canberra who spent a year measuring his own solar and writing
+             down what he found.</p>
+          <p>One honest piece a week on getting more from the solar you already own. No hype, no
+             guaranteed savings figures, and every number sourced.</p>
+          <p class="btm-empty-cta">Put your email in below and you&rsquo;ll get the first one.</p>
+        </div>
+      )}
+
+      {flagship && (
+        <a class="flag" href={`/behind-the-meter/${flagship.slug}`}>
+          <div class="ph">{flagship.feature_image && <img src={flagship.feature_image} alt="" />}<div class="tint"></div><div class="scrim"></div></div>
+          <div class="fb">
+            <span class="cat">{flagship.tag}</span><span class="lead">Lead story</span>
+            <h2>{flagship.title}</h2>
+            <p>{flagship.dek}</p>
+            <div class="m">{fmtDate(flagship.published_at)}{flagship.reading_time ? ` · ${flagship.reading_time} min read` : ""}</div>
+            <div class="r">Read the full story →</div>
+          </div>
+        </a>
+      )}
+
+      {rest.length > 0 && <div class="sec-label">Also worth reading</div>}
+      <div class="also-grid">
+        {rest.map((p) => (
+          <a class="card" href={`/behind-the-meter/${p.slug}`}>
+            <div class="cov"><div class="ph">{p.feature_image && <img src={p.feature_image} alt="" />}<div class="tint"></div><div class="scrim"></div></div><span class="cat">{p.tag}</span></div>
+            <div class="card-b">
+              <h3>{p.title}</h3>
+              <p>{p.dek}</p>
+              <div class="card-meta">{p.reading_time ? `${p.reading_time} min read` : fmtDate(p.published_at)}</div>
+            </div>
+          </a>
+        ))}
+      </div>
+
+      <SubscribeForm />
+    </div>
+  </div>
+</Layout>
