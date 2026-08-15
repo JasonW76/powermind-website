@@ -1,0 +1,124 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+// Privacy page. Written to be accurate to what the site actually does, verified
+// 2026-08-15: no cookies, no localStorage, Cloudflare Web Analytics (cookieless)
+// auto-injected by Cloudflare Pages, no Google Analytics, no ad pixels, and the
+// calculator runs entirely client-side with no runtime fetch.
+//
+// ⚠️ TWO THINGS JASON MUST CONFIRM before this is final:
+//    1. The legal entity name (and ABN if you want it shown) — marked below.
+//    2. That you're happy with the "where your data lives" wording; Ghost Pro's
+//       hosting region should be checked with Ghost if you want to be specific.
+// This is a plain-English privacy statement, not legal advice.
+
+const updated = "15 August 2026";
+---
+<Layout
+  title="Privacy — Powermind"
+  description="What Powermind collects, what it doesn't, and what happens to your email address. Plain English, no cookies, no tracking pixels."
+  active="">
+  <div class="wrap priv">
+
+    <h1>Privacy</h1>
+    <p class="sub">Last updated {updated}</p>
+
+    <div class="lede">
+      <p>The short version: <strong>this site sets no cookies, runs no advertising trackers,
+         and the calculator never sends your answers anywhere.</strong> If you give us your
+         email address, we use it to send you the newsletter and nothing else.</p>
+    </div>
+
+    <h2>Who we are</h2>
+    <p>Powermind is a product of <strong>Capital Environmental Consulting Pty Ltd</strong>,
+       trading as <strong>Futerra AI</strong> — an Australian company based in Canberra.
+       <em>Behind the Meter</em> is our newsletter.</p>
+    <p>It's run by Jason, and you can reach a real person at
+       <a href="mailto:hello@powermind.com.au">hello@powermind.com.au</a> or
+       <a href="mailto:jason@futerra.ai">jason@futerra.ai</a>.</p>
+
+    <h2>The calculator doesn't collect anything</h2>
+    <p>Everything the solar calculator does happens inside your own browser. Your postcode,
+       your bill, your household size, your appliances — none of it is sent to us, and none
+       of it is stored. Close the tab and it's gone.</p>
+    <p>There is no account, no sign-in, and no "enter your details to see your results".
+       You can use the whole tool, download the PDF report, and leave without telling us
+       who you are.</p>
+    <p class="note">The one exception is the optional tickbox under the report offering the
+       newsletter. If you tick it and enter an email address, that address goes to our
+       newsletter system — see below. Nothing else from the calculator goes with it.</p>
+
+    <h2>If you subscribe to Behind the Meter</h2>
+    <p>We collect your <strong>email address</strong>. That's it. We don't ask for your name,
+       and we don't require one.</p>
+    <p>We use it to send you the weekly newsletter. We also record the ordinary things an
+       email system records — whether a message was delivered, opened, or clicked — so we can
+       tell whether the newsletter is any good and whether our emails are arriving.</p>
+    <p><strong>We will never sell your email address, rent it, or pass it to a third party
+       for their own marketing.</strong> No exceptions, no "trusted partners".</p>
+    <p>Every email has an unsubscribe link and it works immediately. You can also email
+       <a href="mailto:jason@futerra.ai">jason@futerra.ai</a> and ask to be removed, and we'll
+       do it and confirm.</p>
+
+    <h2>Analytics — and the cookies we don't set</h2>
+    <p>We use <strong>Cloudflare Web Analytics</strong> to see how many people visit and which
+       pages they read. It is <strong>cookieless</strong>: it doesn't set a cookie, doesn't
+       follow you across other websites, and doesn't build a profile of you.</p>
+    <p>We do <strong>not</strong> use Google Analytics, Meta/Facebook pixels, advertising
+       trackers, session recording, or heatmaps.</p>
+    <p>As of the date above, <strong>this site sets no cookies at all</strong> and stores
+       nothing in your browser's local storage. There is no cookie banner because there is
+       nothing to consent to.</p>
+
+    <h2>Who else touches your data</h2>
+    <ul>
+      <li><strong>Ghost</strong> — runs our newsletter and holds the subscriber list.</li>
+      <li><strong>Cloudflare</strong> — hosts this website and provides the analytics above.</li>
+      <li><strong>Microsoft</strong> — our own email inbox, if you write to us.</li>
+    </ul>
+    <p>Each of these is a service provider acting on our instructions. None of them get your
+       data to use for their own purposes.</p>
+
+    <h2>Your rights</h2>
+    <p>Under the Australian Privacy Principles you can ask us what we hold about you, ask us
+       to correct it, or ask us to delete it. Email
+       <a href="mailto:jason@futerra.ai">jason@futerra.ai</a> and we'll respond.</p>
+    <p>For a subscriber, the honest answer to "what do you hold about me" is usually: one
+       email address, the date you subscribed, and whether you've opened recent emails.</p>
+
+    <h2>Children</h2>
+    <p>This site isn't aimed at children and we don't knowingly collect information from
+       anyone under 18.</p>
+
+    <h2>If this changes</h2>
+    <p>If we start collecting something new, we'll change this page and date it. If the change
+       is significant and you're a subscriber, we'll tell you in the newsletter rather than
+       quietly updating a page nobody reads.</p>
+
+    <h2>Complaints</h2>
+    <p>If you think we've mishandled your information, email
+       <a href="mailto:jason@futerra.ai">jason@futerra.ai</a> first — we'd rather fix it. If
+       you're not satisfied, you can complain to the Office of the Australian Information
+       Commissioner at <a href="https://www.oaic.gov.au" rel="noopener">oaic.gov.au</a>.</p>
+
+  </div>
+</Layout>
+
+<style is:global>
+  .priv{max-width:720px;padding-top:56px;padding-bottom:80px}
+  .priv h1{font-size:42px;line-height:1.08;letter-spacing:-.025em;font-weight:800}
+  .priv .sub{margin-top:10px;color:var(--faint);font-size:13.5px}
+  .priv .lede{margin:26px 0 8px;padding:20px 22px;background:var(--bg-1);border:1px solid var(--line);border-radius:14px;position:relative;overflow:hidden}
+  .priv .lede::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--amber)}
+  .priv .lede p{margin:0;font-size:16.5px;line-height:1.65;color:var(--ink)}
+  .priv h2{margin:38px 0 12px;font-size:20px;line-height:1.25;font-weight:700}
+  .priv p{margin-bottom:13px;font-size:15.5px;line-height:1.72;color:var(--muted)}
+  .priv p strong{color:var(--ink)}
+  .priv ul{margin:0 0 13px 20px}
+  .priv li{font-size:15.5px;line-height:1.72;color:var(--muted);margin-bottom:7px}
+  .priv li strong{color:var(--ink)}
+  .priv a{color:var(--amber-lt);text-decoration:none;border-bottom:1px solid rgba(250,199,117,.35)}
+  .priv a:hover{border-bottom-color:var(--amber-lt)}
+  .priv .note{font-size:14px;padding:13px 15px;background:var(--bg-1);border:1px solid var(--line);border-radius:11px}
+  @media(max-width:820px){ .priv{padding-top:36px} .priv h1{font-size:32px} }
+</style>
