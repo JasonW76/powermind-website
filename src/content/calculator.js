@@ -195,7 +195,10 @@ draw();  // starts at a neutral 6.6 kW (the common Australian size) — a starti
  * Reflects the size the user LANDED ON (not a recommendation) plus the
  * self-use / surplus story that is the Powermind benefit.
  * ===================================================================== */
-var GHOST_URL = '';   // set to your Ghost site to enable the newsletter opt-in
+// Newsletter opt-in destination. MUST be the custom domain, not the .ghost.io host —
+// /members/api/send-magic-link/ 301s on the-molonglo.ghost.io and a redirect drops the
+// POST body, so signups would fail silently. Verified 2026-08-14.
+var GHOST_URL = 'https://news.powermind.com.au';
 
 function reportData(){
   var sun=sunOf(st.pc)||sunOf('2600');

@@ -58,6 +58,33 @@ const website = {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style is:global>
+  /* ── Mobile navigation ─────────────────────────────────────────────
+     global.css hides every nav link below 820px:
+         @media(max-width:820px){ .nav-links a:not(.btn){display:none} }
+     which left phones with NO navigation at all — just the logo and the
+     beta button. Someone landing on an article could not reach the
+     calculator, which is the top of the funnel.
+
+     This wraps the links onto a second row instead of hiding them.
+     All four stay visible, the current section keeps its amber underline,
+     and no JavaScript is involved. Desktop is untouched — every rule
+     below is inside the same 820px breakpoint.
+
+     Selectors are prefixed with `nav` purely to out-specify global.css.
+     Added 2026-08-15.
+  ───────────────────────────────────────────────────────────────────── */
+  @media (max-width: 820px) {
+    nav .nav-in       { flex-wrap: wrap; position: relative; padding: 12px 18px 0; }
+    nav .nav-links    { order: 3; width: 100%; justify-content: center; gap: 16px;
+                        margin-top: 11px; padding: 10px 0 11px;
+                        border-top: 1px solid var(--line); }
+    nav .nav-links a:not(.btn) { display: block; font-size: 13.5px; }
+    nav .nav-links .btn        { position: absolute; top: 12px; right: 18px; }
+    nav .brand img    { width: 36px; height: 36px; }
+    nav .brand span   { font-size: 17px; }
+  }
+</style>
 </head>
 <body>
   <nav>
@@ -78,6 +105,7 @@ const website = {
       <a class="brand" href="/"><img src="/pm-logo.png" alt="Powermind" width="24" height="24" /><span>Powermind</span></a>
       <div class="foot-nav">
         <a href="/calculator">Calculator</a>
+        <a href="/behind-the-meter">Behind the Meter</a>
         <a href="/app">The app</a>
         <a href="/app#beta">Beta</a>
       </div>
