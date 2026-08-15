@@ -68,28 +68,46 @@ const MEMBERS_URL = (import.meta.env.GHOST_MEMBERS_URL || "https://news.powermin
       msg.textContent = "";
 
       try {
-        // ⚠️ DO NOT add `labels`, `name`, or any other field here.
+        // ⚠️ TWO REQUESTS, NOT ONE. This is the whole trick, and it is not optional.
         //
-        // Ghost's PUBLIC members endpoint accepts only `email` and `emailType` from an
-        // unauthenticated caller. Anything else returns 400 BadRequestError — a blanket
-        // "The request could not be understood", with no hint as to which field was at
-        // fault. An earlier version sent `labels: ["behind-the-meter"]` and every single
-        // signup failed. Found 2026-08-15, when Jason tried to subscribe himself.
+        // Ghost's public signup endpoint is protected by a short-lived anti-abuse token.
+        // You must GET it first and send it back with the signup. Without it EVERY request
+        // fails with a blanket:
         //
-        // To tag where a subscriber came from, use Ghost's own source tracking
-        // (`members_track_sources` is on) plus UTM parameters — not a label on this call.
+        //     400  {"errors":[{"message":"The request could not be understood.",
+        //                      "type":"BadRequestError"}]}
+        //
+        // The error names no field and is identical whatever else you send, which makes it
+        // very easy to misdiagnose. It cost us two wrong theories on 2026-08-15 — first
+        // that a `labels` array was being rejected, then that the payload was too rich.
+        // Both wrong. The body was never the problem; the missing token was.
+        //
+        // `honeypot` and `redirect` are what Ghost's own Portal sends, so we match it.
+        // `redirect` is where the reader lands after clicking the link in their email.
+        //
+        // Verified working 2026-08-15: this returns 201 Created.
+        const tokenRes = await fetch(base + "/members/api/integrity-token/");
+        if (!tokenRes.ok) throw new Error("token HTTP " + tokenRes.status);
+        const integrityToken = await tokenRes.text();
+
         const res = await fetch(base + "/members/api/send-magic-link/", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, emailType: "subscribe" }),
+          body: JSON.stringify({
+            email,
+            emailType: "subscribe",
+            honeypot: "",
+            redirect: "https://www.powermind.com.au/behind-the-meter",
+            integrityToken,
+          }),
         });
         if (!res.ok) throw new Error("HTTP " + res.status);
         form.dataset.state = "ok";
         msg.textContent = "Check your inbox — we’ve sent a confirmation link to " + email + ".";
         input.value = "";
       } catch (err) {
-        // Surface the real reason in the console. The message shown to the reader stays
-        // friendly, but a silent generic failure is what hid the `labels` bug for a fortnight.
+        // Surface the real reason in the console. The reader still sees a friendly line,
+        // but a failure with no detail anywhere is what made this take three attempts.
         console.warn("[subscribe] failed:", err && err.message);
         form.dataset.state = "error";
         msg.textContent = "Something went wrong at our end. Try again, or email jason@futerra.ai.";
