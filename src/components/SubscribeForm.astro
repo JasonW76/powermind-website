@@ -68,20 +68,29 @@ const MEMBERS_URL = (import.meta.env.GHOST_MEMBERS_URL || "https://news.powermin
       msg.textContent = "";
 
       try {
+        // ⚠️ DO NOT add `labels`, `name`, or any other field here.
+        //
+        // Ghost's PUBLIC members endpoint accepts only `email` and `emailType` from an
+        // unauthenticated caller. Anything else returns 400 BadRequestError — a blanket
+        // "The request could not be understood", with no hint as to which field was at
+        // fault. An earlier version sent `labels: ["behind-the-meter"]` and every single
+        // signup failed. Found 2026-08-15, when Jason tried to subscribe himself.
+        //
+        // To tag where a subscriber came from, use Ghost's own source tracking
+        // (`members_track_sources` is on) plus UTM parameters — not a label on this call.
         const res = await fetch(base + "/members/api/send-magic-link/", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            email,
-            emailType: "subscribe",
-            labels: ["behind-the-meter"],
-          }),
+          body: JSON.stringify({ email, emailType: "subscribe" }),
         });
         if (!res.ok) throw new Error("HTTP " + res.status);
         form.dataset.state = "ok";
         msg.textContent = "Check your inbox — we’ve sent a confirmation link to " + email + ".";
         input.value = "";
       } catch (err) {
+        // Surface the real reason in the console. The message shown to the reader stays
+        // friendly, but a silent generic failure is what hid the `labels` bug for a fortnight.
+        console.warn("[subscribe] failed:", err && err.message);
         form.dataset.state = "error";
         msg.textContent = "Something went wrong at our end. Try again, or email jason@futerra.ai.";
       } finally {
