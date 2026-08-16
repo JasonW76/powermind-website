@@ -23,6 +23,62 @@ const website = {
   name: "Powermind",
   url: "https://www.powermind.com.au",
 };
+// Author identity. Added 2026-08-16.
+//
+// Until now the site emitted Organization and WebSite but no person, so nothing told
+// Google — or an AI engine deciding whether to cite us — who wrote any of this. For a
+// publication whose whole position is trust, that was the wrong thing to leave out.
+//
+// ⚠️ Every claim here must match /about exactly, and must stay true:
+//    · "since 1998" not a year count — never goes stale
+//    · knowsAbout describes subject expertise, NOT job titles he hasn't held
+//    · No client names (Jason's instruction, 2026-08-16)
+// Source: Jason's CV, read 2026-08-16.
+const person = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Jason Watson",
+  url: "https://www.powermind.com.au/about",
+  jobTitle: "Environmental Scientist",
+  image: new URL("/jason-watson-320.png", Astro.site).href,
+  description:
+    "Environmental scientist practising since 1998 and an Exemplar Global Certified Lead Environmental Auditor, writing about Australian home energy from measured data.",
+  email: "mailto:jason@futerra.ai",
+  worksFor: {
+    "@type": "Organization",
+    name: "Futerra",
+    url: "https://futerra.ai",
+    description:
+      "An independent Australian software company building science-led consumer apps. Powermind is its first product.",
+  },
+  alumniOf: [
+    { "@type": "CollegeOrUniversity", name: "Macquarie University" },
+    { "@type": "CollegeOrUniversity", name: "University of Canberra" },
+  ],
+  hasCredential: [
+    {
+      "@type": "EducationalOccupationalCredential",
+      credentialCategory: "certification",
+      name: "Exemplar Global Certified Lead Environmental Auditor (ISO 14001)",
+    },
+    {
+      "@type": "EducationalOccupationalCredential",
+      credentialCategory: "degree",
+      name: "Master of Environmental Science",
+    },
+  ],
+  // No memberOf — Jason confirmed 2026-08-16 he is no longer an EIANZ member.
+  // Do not reinstate from the CV; the CV predates that.
+  knowsAbout: [
+    "Rooftop solar self-consumption",
+    "Home energy load shifting",
+    "Electric hot water systems",
+    "Time-of-use electricity tariffs",
+    "Home battery storage",
+    "Environmental auditing",
+  ],
+  homeLocation: { "@type": "Place", name: "Canberra, Australian Capital Territory" },
+};
 ---
 <!DOCTYPE html>
 <html lang="en-AU">
@@ -55,6 +111,7 @@ const website = {
 <meta name="twitter:image" content={ogImage} />
 <script type="application/ld+json" set:html={JSON.stringify(org)} />
 <script type="application/ld+json" set:html={JSON.stringify(website)} />
+<script type="application/ld+json" set:html={JSON.stringify(person)} />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -83,6 +140,12 @@ const website = {
     nav .nav-links .btn        { position: absolute; top: 12px; right: 18px; }
     nav .brand img    { width: 36px; height: 36px; }
     nav .brand span   { font-size: 17px; }
+
+    /* "Home" is dropped on phones — the logo already goes home and everyone knows it.
+       That frees the slot for "About", which now carries a named author, credentials
+       and a face, and is doing real trust work. Desktop keeps both; there's room.
+       Decided with Jason 2026-08-16. */
+    nav .nav-links a.nav-home  { display: none; }
   }
 </style>
 </head>
@@ -91,10 +154,11 @@ const website = {
     <div class="nav-in">
       <a class="brand" href="/"><img src="/pm-logo.png" alt="Powermind" width="43" height="43" /><span>Powermind</span></a>
       <div class="nav-links">
-        <a href="/" class={active === "home" ? "active" : ""}>Home</a>
+        <a href="/" class={"nav-home " + (active === "home" ? "active" : "")}>Home</a>
         <a href="/calculator" class={active === "calc" ? "active" : ""}>Calculator</a>
         <a href="/behind-the-meter" class={active === "btm" ? "active" : ""}>Behind the Meter</a>
         <a href="/app" class={active === "app" ? "active" : ""}>The app</a>
+        <a href="/about" class={active === "about" ? "active" : ""}>About</a>
         <a class="btn btn-amber" href="/app#beta">Join the beta →</a>
       </div>
     </div>
@@ -107,6 +171,7 @@ const website = {
         <a href="/calculator">Calculator</a>
         <a href="/behind-the-meter">Behind the Meter</a>
         <a href="/app">The app</a>
+        <a href="/about">About</a>
         <a href="/app#beta">Beta</a>
         <a href="/privacy">Privacy</a>
       </div>

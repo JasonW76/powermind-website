@@ -1,0 +1,174 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+// About page — the author identity behind Behind the Meter.
+//
+// Added 2026-08-16. Until now the site published as "Jason", which wasted a real
+// credential and blocked two channels: LinkedIn (which needs a real person) and
+// Whirlpool (whose rules require declaring a commercial interest).
+//
+// ⚠️ ACCURACY RULES FOR THIS PAGE — every line here is checkable, so keep it that way:
+//   · "since 1998" not "27 years" — a start year never goes stale and never needs editing
+//   · The 2024 audits were ENVIRONMENTAL COMPLIANCE audits. Not electrical performance,
+//     not yield. Do not let this drift into implying he assessed how much power they made.
+//   · No client names. They're on a CV that gets sent to people; that is not the same as
+//     a public webpage. Jason's explicit instruction, 2026-08-16.
+//   · Self-consumption is 47% — measured, calendar year 2025, ONE house. Never "typical".
+//
+// Source for the credentials: Jason's own CV, read 2026-08-16.
+---
+<Layout
+  title="About — Behind the Meter | Powermind"
+  description="Behind the Meter is written by Jason Watson, an environmental scientist and certified lead environmental auditor in Canberra who measured his own solar for a year."
+  active="about">
+  <div class="wrap about">
+
+    <h1>About</h1>
+
+    <div class="who">
+      {/* Circular PNG with a transparent field — the original headshot has a light grey
+          studio background, which would read as a bright rectangle on a near-black page.
+          Masking it to a circle removes the box without retouching the photo. */}
+      <img class="mug" src="/jason-watson-320.png" width="132" height="132"
+           alt="Jason Watson" loading="eager" />
+      <div class="who-t">
+        <div class="who-n">Jason Watson</div>
+        <div class="who-r">Environmental scientist · Certified Lead Environmental Auditor</div>
+        <div class="who-l">Canberra, Australia</div>
+      </div>
+    </div>
+
+    <div class="lede">
+      <p>I've been an environmental scientist since 1998 — measuring things, assessing
+         constraints, and working out whether what was promised on paper survives contact
+         with a real site.</p>
+    </div>
+
+    <p>More recently that's included certification as an <strong>Exemplar Global Lead
+       Environmental Auditor</strong>, and in 2024, environmental compliance audits at a
+       solar farm in Queensland and a grid-scale battery here in the ACT.</p>
+
+    <p>The job is always some version of the same question: <em>is this actually doing what
+       it said it would?</em></p>
+
+    <p>Then I put solar on my own roof, and realised nobody was asking that question about
+       my house. So I measured it for a year. <strong>Behind the Meter</strong> is what I
+       found, and what I've learned since.</p>
+
+    <h2>What I found, to be going on with</h2>
+
+    <div class="stat">
+      <div class="stat-n">47%</div>
+      <div class="stat-t">of what my roof generated in 2025, my house actually used.
+        The other 53% went to the grid for a few cents. One Canberra home, measured —
+        not an average, and not a claim about yours.</div>
+    </div>
+
+    <p>That gap is the whole subject. Not generating more — catching more of what you
+       already generate. Most of what I write comes back to it.</p>
+
+    <h2>How I handle numbers</h2>
+
+    <p>Old habit, and it's the useful part of an audit background. Every figure here is
+       marked as one of three things:</p>
+
+    <ul class="tags">
+      <li><b>Measured</b> — my own house, my own meter. Always described as one home,
+        because that's what it is.</li>
+      <li><b>Modelled</b> — the calculator's output, with the assumptions visible.</li>
+      <li><b>Sourced</b> — someone else's work, cited, and checked that it's current.</li>
+    </ul>
+
+    <p>They never get mixed silently. If a number can't be traced to one of those three,
+       it doesn't get published — I'd rather leave a gap than fill it convincingly.</p>
+
+    <p>You won't find a guaranteed savings figure anywhere on this site. Nobody can
+       promise you one and mean it, because it depends on your tariff, your roof and your
+       habits. Ranges with the assumptions showing, or nothing.</p>
+
+    <h2>Why I built Powermind</h2>
+
+    <p>Measuring my own house told me the problem wasn't generating more power. It was
+       catching more of what I already generated — running the hot water, the car charger
+       and the aircon while the sun was actually on the roof.</p>
+
+    <p>Doing that by hand means paying attention at the right hour, every day, forever.
+       Nobody sustains that. So I built software to do it instead.</p>
+
+    <p><a href="/app">Powermind</a> is the science put into practice — the same
+       measurements, automated. It's not a separate business that happens to sit next to
+       the writing; it's the same work, one step further on.</p>
+
+    <p>Which is also why I'll tell you when something isn't worth buying, including
+       something of mine. The sources here are linked and the arithmetic is shown so you
+       can check it rather than take my word for it.</p>
+
+    <h2>Credentials</h2>
+
+    <ul class="creds">
+      <li>Environmental scientist, practising since 1998</li>
+      <li>Exemplar Global Certified Lead Environmental Auditor (ISO 14001)</li>
+      <li>Master of Environmental Science, Macquarie University</li>
+      <li>Bachelor of Applied Science, University of Canberra</li>
+      <li>Founder, <a href="https://futerra.ai" rel="noopener">Futerra</a> — an independent
+        Australian software company. Powermind is its first product.</li>
+    </ul>
+
+    <h2>Get in touch</h2>
+
+    <p>Reply to any edition of the newsletter and it comes straight to me — I read every
+       one, and they shape what I write next. Otherwise:
+       <a href="mailto:jason@futerra.ai">jason@futerra.ai</a>.</p>
+
+    <p>If you've got solar, a heat pump, an EV or a quote you're weighing up, I'm
+       genuinely interested in what your numbers look like.</p>
+
+    <div class="cta-row">
+      <a class="btn btn-teal" href="/behind-the-meter">Read Behind the Meter</a>
+      <a class="btn btn-ghost" href="/calculator">Try the calculator</a>
+    </div>
+
+  </div>
+</Layout>
+
+<style is:global>
+  .about{max-width:720px;padding-top:56px;padding-bottom:90px}
+  .about .eyebrow{color:var(--teal);font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;margin-bottom:10px}
+  .about h1{font-size:42px;line-height:1.08;letter-spacing:-.025em;font-weight:800}
+  .about .who{display:flex;align-items:center;gap:18px;margin:24px 0 4px}
+  .about .mug{width:132px;height:132px;border-radius:50%;flex:0 0 auto;
+              box-shadow:0 0 0 1px var(--line), 0 10px 30px rgba(0,0,0,.45)}
+  .about .who-n{font-size:22px;font-weight:750;letter-spacing:-.02em;color:var(--ink)}
+  .about .who-r{margin-top:4px;font-size:14px;color:var(--teal);font-weight:600;line-height:1.45}
+  .about .who-l{margin-top:3px;font-size:13.5px;color:var(--faint)}
+  .about .lede{margin:22px 0 8px;padding:20px 22px;background:var(--bg-1);border:1px solid var(--line);border-radius:14px;position:relative;overflow:hidden}
+  .about .lede::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--teal)}
+  .about .lede p{margin:0;font-size:17px;line-height:1.62;color:var(--ink)}
+  .about h2{margin:40px 0 12px;font-size:20px;line-height:1.25;font-weight:700}
+  .about p{margin-bottom:13px;font-size:15.5px;line-height:1.72;color:var(--muted)}
+  .about p strong{color:var(--ink)}
+  .about a{color:var(--amber-lt);text-decoration:none;border-bottom:1px solid rgba(250,199,117,.35)}
+  .about a:hover{border-bottom-color:var(--amber-lt)}
+  .about .stat{display:flex;gap:20px;align-items:flex-start;margin:22px 0 18px;padding:20px 22px;background:var(--bg-1);border:1px solid var(--line);border-radius:14px}
+  .about .stat-n{font-size:42px;line-height:1;font-weight:800;color:var(--teal);letter-spacing:-.03em;flex:0 0 auto}
+  .about .stat-t{font-size:14px;line-height:1.62;color:var(--muted)}
+  .about ul.tags,.about ul.creds{margin:0 0 16px;padding:0;list-style:none}
+  .about ul.tags li{position:relative;padding-left:18px;margin-bottom:9px;font-size:15.5px;line-height:1.7;color:var(--muted)}
+  .about ul.tags li::before{content:'';position:absolute;left:0;top:10px;width:6px;height:6px;border-radius:50%;background:var(--teal)}
+  .about ul.tags b{color:var(--ink);font-weight:650}
+  .about ul.creds li{padding:9px 0;border-bottom:1px solid var(--line);font-size:15px;color:var(--muted)}
+  .about ul.creds li:last-child{border-bottom:0}
+  .about .cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
+  .about .btn-ghost{border:1px solid var(--line);color:var(--ink);background:transparent}
+  .about .cta-row a{border-bottom:0}
+  @media(max-width:820px){
+    .about{padding-top:36px}
+    .about h1{font-size:32px}
+    .about .stat{flex-direction:column;gap:10px}
+    .about .stat-n{font-size:36px}
+    .about .who{gap:14px}
+    .about .mug{width:96px;height:96px}
+    .about .who-n{font-size:19px}
+    .about .who-r{font-size:13px}
+  }
+</style>
