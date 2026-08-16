@@ -13,14 +13,14 @@ const empty = posts.length === 0;
 const mark = `<svg class="mark" viewBox="0 0 120 120" fill="none"><defs><linearGradient id="metal" gradientUnits="userSpaceOnUse" x1="96" y1="24" x2="24" y2="96"><stop offset="0" stop-color="#8b8d8e"/><stop offset="0.2" stop-color="#c4c6c6"/><stop offset="0.4" stop-color="#f4f5f5"/><stop offset="0.5" stop-color="#fff"/><stop offset="0.6" stop-color="#eaebeb"/><stop offset="0.8" stop-color="#adafb0"/><stop offset="1" stop-color="#8b8d8e"/></linearGradient></defs><path d="M73 31.6 L60 20 L24 52 L24 98 L96 98 L96 52 L89 45.8" stroke="url(#metal)" stroke-width="7" stroke-linejoin="round"/><path d="M92.2 22.3 L72.2 38.4 L77.8 42.2 L70.3 54.1 L89.8 39.3 L83.8 35.6 Z" fill="url(#metal)"/></svg>`;
 ---
 <Layout
-  title="Behind the Meter — Australia's weekly home energy briefing | Powermind"
+  title="Behind the Meter — Australia's home energy briefing | Powermind"
   description="Plain-English, useful writing on getting more from the solar you've already got: feed-in tariffs, hot water, self-consumption, batteries and more. A Powermind publication."
   active="btm">
   <div class="btm">
     <div class="btm-wrap">
       <div class="masthead"><div class="mast-row">
         <Fragment set:html={mark} />
-        <div class="mast-txt"><div class="wm">BEHIND THE METER</div><div class="tl">Australia's weekly home energy briefing</div></div>
+        <div class="mast-txt"><div class="wm">BEHIND THE METER</div><div class="tl">Australia's home energy briefing</div></div>
       </div></div>
 
       <div class="ed-head">
@@ -31,7 +31,7 @@ const mark = `<svg class="mark" viewBox="0 0 120 120" fill="none"><defs><linearG
       {empty && (
         <div class="btm-empty">
           <h2>The first issue lands soon.</h2>
-          <p>Behind the Meter is Australia&rsquo;s weekly home energy briefing &mdash; written by Jason, an
+          <p>Behind the Meter is Australia&rsquo;s home energy briefing &mdash; written by Jason, an
              environmental scientist in Canberra who spent a year measuring his own solar and writing
              down what he found.</p>
           <p>One honest piece a week on getting more from the solar you already own. No hype, no
