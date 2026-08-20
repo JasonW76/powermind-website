@@ -110,6 +110,43 @@
 #solarcalc .invexp-in b{color:var(--ink)}
 #solarcalc .invscope{margin:13px 0 0;font-size:11.5px;line-height:1.55;color:rgba(240,237,230,.42)}
 #solarcalc .invscope a{color:var(--amber-lt);text-decoration:none;border-bottom:1px solid rgba(250,199,117,.4)}
+
+/* --- start-here step strip --- */
+#solarcalc .starthere{background:var(--bg-1);border-bottom:1px solid var(--line);padding:15px 26px 17px}
+#solarcalc .sh-lab{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber-lt);font-weight:700;margin-bottom:11px}
+#solarcalc .sh-steps{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+#solarcalc .sh-step{display:flex;gap:11px;align-items:flex-start}
+#solarcalc .sh-num{flex:0 0 auto;width:25px;height:25px;border-radius:50%;background:rgba(239,159,39,.14);border:1px solid rgba(239,159,39,.45);color:var(--amber-lt);font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center}
+#solarcalc .sh-txt{font-size:13.5px;color:var(--ink);line-height:1.4}
+#solarcalc .sh-txt span{display:block;color:var(--muted);font-size:12.5px;margin-top:2px;font-weight:400}
+#solarcalc .sh-txt b{font-weight:600}
+/* --- setup / result section labels --- */
+#solarcalc .setuplab{background:var(--bg-1);padding:16px 26px 0;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);font-weight:600}
+#solarcalc .inputs{border-top:none;margin-top:0}
+#solarcalc .resulttab{padding:11px 26px;background:rgba(239,159,39,.07);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber-lt);font-weight:700;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+/* --- highlighted size field --- */
+#solarcalc .sizefield{background:rgba(239,159,39,.05);border:1px solid rgba(239,159,39,.22);border-radius:12px;padding:14px 15px}
+/* --- prominent bill-refine panel --- */
+#solarcalc .billcallout{background:linear-gradient(180deg,rgba(29,158,117,.10),rgba(29,158,117,.04));border:1px solid rgba(29,158,117,.40);border-radius:14px;padding:16px 17px}
+#solarcalc .billtop{display:flex;gap:13px;align-items:flex-start;flex-wrap:wrap}
+#solarcalc .billicon{flex:0 0 auto;width:28px;height:28px;border-radius:50%;background:rgba(29,158,117,.20);border:1px solid rgba(29,158,117,.5);color:var(--green-lt);font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center}
+#solarcalc .billwords{flex:1;min-width:220px}
+#solarcalc .billtitle{font-size:15px;font-weight:700;color:var(--ink)}
+#solarcalc .billopt{font-size:12.5px;font-weight:500;color:var(--faint)}
+#solarcalc .billsub{font-size:13px;color:var(--muted);margin-top:4px;line-height:1.5}
+#solarcalc .billsub b{color:var(--green-lt)}
+#solarcalc .billbtn{flex:0 0 auto;background:rgba(29,158,117,.18);border:1px solid rgba(29,158,117,.55);color:var(--green-lt);font-weight:700;font-size:13.5px;border-radius:10px;padding:10px 15px;cursor:pointer;font-family:inherit;align-self:center}
+#solarcalc .billbtn.on{background:rgba(29,158,117,.30)}
+/* --- assumed-usage shape note --- */
+#solarcalc .shapenote{margin:0 26px 20px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08)}
+#solarcalc .shapenote summary{list-style:none;cursor:pointer;font-size:12.5px;color:var(--muted)}
+#solarcalc .shapenote summary::-webkit-details-marker{display:none}
+#solarcalc .shapewhy{color:var(--amber);font-weight:600}
+#solarcalc .shapeexp{margin-top:11px;padding:13px 15px;background:#1e2530;border-radius:11px;font-size:12.5px;line-height:1.62;color:var(--muted)}
+#solarcalc .shapeexp b{color:var(--ink)}
+#solarcalc .dayassume{margin:9px 0 0;padding-left:18px}
+#solarcalc .dayassume li{margin-bottom:6px;line-height:1.55}
+@media(max-width:640px){#solarcalc .sh-steps{grid-template-columns:1fr;gap:13px}}
 </style>
 
 <header class="phead">
@@ -131,6 +168,85 @@
 <div class="instrument">
   <div class="inst-head"><span class="lab">Solar sizing calculator</span><span class="tag" id="tag">postcode 2600 · Barton, ACT</span></div>
 
+  <div class="starthere">
+    <div class="sh-lab">&#9701; Start here</div>
+    <div class="sh-steps">
+      <div class="sh-step"><div class="sh-num">1</div><div class="sh-txt"><b>Tell it about your home</b><span>Postcode, people, efficiency, hot water &amp; your big loads.</span></div></div>
+      <div class="sh-step"><div class="sh-num">2</div><div class="sh-txt"><b>Slide to a system size</b><span>The size in kW you&rsquo;re weighing up.</span></div></div>
+      <div class="sh-step"><div class="sh-num">3</div><div class="sh-txt"><b>Read your solar day</b><span>How much you&rsquo;d use vs export &mdash; updates live below.</span></div></div>
+    </div>
+  </div>
+
+  <div class="setuplab">&#9312; Your home</div>
+  <div class="inputs">
+    <div class="field">
+      <label>Your postcode <span class="f">&mdash; sets your sun &amp; climate</span></label>
+      <input type="text" id="pc" inputmode="numeric" maxlength="4" value="2600">
+      <div class="hint" id="pcHint">Barton, ACT &middot; NatHERS zone 24</div>
+    </div>
+    <div class="field">
+      <label>Your household</label>
+      <div class="segfull" id="people">
+        <button data-d="5">1</button><button data-d="7">2</button><button data-d="8.5">3</button>
+        <button data-d="10" class="on">4</button><button data-d="12">5+</button></div>
+      <div class="hint">people at home</div>
+    </div>
+    <div class="field span2">
+      <label>How efficient is your home? <span class="f">&mdash; sets how much heating &amp; cooling costs</span></label>
+      <div class="segfull" id="eff">
+        <button data-star="2">Older / draughty</button>
+        <button data-star="3.5" class="on">Typical</button>
+        <button data-star="6">Newer / insulated</button>
+        <button data-star="8">High-performance</button></div>
+      <div class="hint" id="effHint">Typical existing home (~3.5 star). Most Australian homes sit here.</div>
+    </div>
+    <div class="field">
+      <label>Hot water</label>
+      <select id="hw"><option value="heatpump" selected>Heat pump</option><option value="resistive">Electric (tank)</option><option value="gas">Gas</option><option value="solar">Solar hot water</option></select>
+    </div>
+    <div class="field span2">
+      <label>Big loads you have</label>
+      <div class="chips">
+        <span class="chip on" data-l="heating"><i class="dot"></i>Reverse-cycle heating</span>
+        <span class="chip on" data-l="cooling"><i class="dot"></i>Aircon (cooling)</span>
+        <span class="chip on" data-l="ev"><i class="dot"></i>EV</span>
+        <span class="chip" data-l="pool"><i class="dot"></i>Pool</span>
+      </div>
+      <div class="evwrap show" id="evwrap">
+        <label style="font-size:12px;color:var(--muted);font-weight:600;display:block;margin:2px 0 7px">Is the car usually home in the daytime?</label>
+        <div class="segfull" id="carhome" style="max-width:360px">
+          <button data-c="0.15">Rarely</button><button data-c="0.5" class="on">Some days</button><button data-c="0.85">Most days</button></div>
+      </div>
+    </div>
+    <div class="field span2">
+      <div class="sizefield">
+        <label style="margin-bottom:10px">&#9313; System size you&rsquo;re weighing up</label>
+        <input type="range" id="kw" min="2" max="13" step="0.44" value="6.6">
+        <div class="hint" id="kwHint">6.6 kW &middot; &asymp; 15 panels (440 W)</div>
+      </div>
+    </div>
+    <div class="field span2">
+      <div class="billcallout">
+        <div class="billtop">
+          <span class="billicon">&#10003;</span>
+          <div class="billwords">
+            <div class="billtitle">Make it your real numbers <span class="billopt">&mdash; optional, ~30 seconds</span></div>
+            <div class="billsub">Everything so far is a typical home. Add one figure from a recent power bill and the whole estimate calibrates to <b>your</b> actual usage.</div>
+          </div>
+          <button type="button" class="billbtn" id="billToggle" data-l="bill">Add a bill figure &rarr;</button>
+        </div>
+        <div id="billwrap" style="display:none;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:1px solid rgba(29,158,117,.25)">
+          <span class="hint" style="margin:0">Average daily use from the bill:</span>
+          <input type="text" id="billv" inputmode="decimal" style="width:100px" placeholder="kWh/day">
+          <div class="segfull" id="billseason" style="max-width:340px">
+            <button data-s="summer">Summer</button><button data-s="autumn">Autumn</button>
+            <button data-s="winter">Winter</button><button data-s="spring" class="on">Spring</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="resulttab">&#9314; Your result</div>
   <div class="hero">
     <div class="hero-k">The size you're weighing up</div>
     <div class="hero-size"><span id="kwBig">6.6</span> kW <span class="p">· ≈ <span id="panelBig">15</span> panels</span></div>
@@ -163,67 +279,24 @@
     <span><i class="sw line"></i> Your home's use</span>
   </div>
 
+  <details class="shapenote">
+    <summary class="shapeline">Your home&rsquo;s use (white line) peaks morning and night. <span class="shapewhy">&#9432; How your day is assumed to run</span></summary>
+    <div class="shapeexp">
+      <p style="margin-top:0"><b>This is a typical Australian household day &mdash; a guide, not a reading of your exact home.</b> To turn your loads into an hour-by-hour shape, the tool assumes:</p>
+      <ul class="dayassume">
+        <li><b>Overnight</b> &mdash; the EV and pool pump run on off-peak timers, and hot water heats in the early hours (modelled around 4&ndash;6am).</li>
+        <li><b>Morning, ~6&ndash;8am</b> &mdash; the house wakes up: breakfast, hot water, lights, and in winter the heating switches on. The sun&rsquo;s barely up, so most of this is bought from the grid.</li>
+        <li><b>Midday</b> &mdash; the home is quietest just as solar peaks, so much of your generation goes spare &mdash; that&rsquo;s the surplus you export for cents.</li>
+        <li><b>Evening, ~5&ndash;8pm</b> &mdash; the day&rsquo;s biggest peak: cooking, heating or cooling, lights, everyone home &mdash; but the sun&rsquo;s gone, so it&rsquo;s back to the grid.</li>
+      </ul>
+      <p style="margin-top:9px">That&rsquo;s why the two big draws sit outside solar hours &mdash; morning and night. <b>Your own timing will differ</b>, so these are indicative; add a recent bill above to calibrate the totals to your home. And these morning-and-night loads are exactly the ones you could move into the middle of the day &mdash; switch to <b>&ldquo;Surplus used&rdquo;</b> to see how much your solar could cover.</p>
+    </div>
+  </details>
+
   <div class="invnote" id="invNote">
     <p class="invline"><span id="invSent"></span> <button type="button" class="invwhy" id="invWhy">&#9432; Why that matters</button></p>
     <div class="invexp" id="invExp"><div class="invexp-in">Your inverter is the bottleneck between your panels and the grid. Australian rules let installers fit panels up to <b>133%</b> of the inverter&rsquo;s size &mdash; that&rsquo;s why &ldquo;6.6&nbsp;kW&rdquo; systems run a 5&nbsp;kW inverter. Most networks also cap how much you can export at <b>around 5&nbsp;kW per phase</b> (and some states now throttle it in real time). So a typical system already makes more than it&rsquo;s allowed to send out &mdash; meaning the extra is only worth anything if <b>you use it at home</b>. That&rsquo;s exactly what this tool estimates.</div></div>
     <p class="invscope">This tool estimates your system size and how much of your solar you&rsquo;ll use &mdash; not full system design. For inverter choice, roof layout and panel placement, talk to your installer or a tool like <a href="https://www.sunspot.org.au/" target="_blank" rel="noopener">SunSPOT</a>.</p>
-  </div>
-
-  <div class="inputs">
-    <div class="field">
-      <label>Your postcode <span class="f">— sets your sun &amp; climate</span></label>
-      <input type="text" id="pc" inputmode="numeric" maxlength="4" value="2600">
-      <div class="hint" id="pcHint">Barton, ACT · NatHERS zone 24</div>
-    </div>
-    <div class="field">
-      <label>Your household</label>
-      <div class="segfull" id="people">
-        <button data-d="5">1</button><button data-d="7">2</button><button data-d="8.5">3</button>
-        <button data-d="10" class="on">4</button><button data-d="12">5+</button></div>
-      <div class="hint">people at home</div>
-    </div>
-    <div class="field span2">
-      <label>How efficient is your home? <span class="f">— sets how much heating &amp; cooling costs</span></label>
-      <div class="segfull" id="eff">
-        <button data-star="2">Older / draughty</button>
-        <button data-star="3.5" class="on">Typical</button>
-        <button data-star="6">Newer / insulated</button>
-        <button data-star="8">High-performance</button></div>
-      <div class="hint" id="effHint">Typical existing home (~3.5 star). Most Australian homes sit here.</div>
-    </div>
-    <div class="field">
-      <label>Hot water</label>
-      <select id="hw"><option value="heatpump" selected>Heat pump</option><option value="resistive">Electric (tank)</option><option value="gas">Gas</option><option value="solar">Solar hot water</option></select>
-    </div>
-    <div class="field">
-      <label>System size you're weighing up</label>
-      <input type="range" id="kw" min="2" max="13" step="0.44" value="6.6">
-      <div class="hint" id="kwHint">6.6 kW · ≈ 15 panels (440 W)</div>
-    </div>
-    <div class="field span2">
-      <label>Big loads you have</label>
-      <div class="chips">
-        <span class="chip on" data-l="heating"><i class="dot"></i>Reverse-cycle heating</span>
-        <span class="chip on" data-l="cooling"><i class="dot"></i>Aircon (cooling)</span>
-        <span class="chip on" data-l="ev"><i class="dot"></i>EV</span>
-        <span class="chip" data-l="pool"><i class="dot"></i>Pool</span>
-      </div>
-      <div class="evwrap show" id="evwrap">
-        <label style="font-size:12px;color:var(--muted);font-weight:600;display:block;margin:2px 0 7px">Is the car usually home in the daytime?</label>
-        <div class="segfull" id="carhome" style="max-width:360px">
-          <button data-c="0.15">Rarely</button><button data-c="0.5" class="on">Some days</button><button data-c="0.85">Most days</button></div>
-      </div>
-    </div>
-    <div class="field span2">
-      <label><span class="chip" id="billToggle" data-l="bill" style="margin-right:6px"><i class="dot"></i>Refine with a recent bill</span> <span class="f">optional — makes it your real numbers</span></label>
-      <div id="billwrap" style="display:none;gap:12px;align-items:center;flex-wrap:wrap;margin-top:4px">
-        <span class="hint" style="margin:0">Average daily use from the bill:</span>
-        <input type="text" id="billv" inputmode="decimal" style="width:90px" placeholder="kWh/day">
-        <div class="segfull" id="billseason" style="max-width:320px">
-          <button data-s="summer">Summer</button><button data-s="autumn">Autumn</button>
-          <button data-s="winter">Winter</button><button data-s="spring" class="on">Spring</button></div>
-      </div>
-    </div>
   </div>
 
   <div class="foot">
