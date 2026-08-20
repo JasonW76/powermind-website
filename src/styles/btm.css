@@ -107,3 +107,8 @@
   .btm .a-hero{height:300px}
   .btm .prose > p{font-size:18px}
 }
+
+/* callout box — teal-tinted panel (articles) */
+.btm .prose .callout{background:rgba(72,196,176,.07);border:1px solid rgba(72,196,176,.28);border-radius:14px;padding:17px 19px;margin:28px 0}
+.btm .prose .callout .k{color:var(--teal-lt);font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;margin-bottom:8px}
+.btm .prose .callout p{margin:0;font-size:16px;line-height:1.6;color:var(--read)}
