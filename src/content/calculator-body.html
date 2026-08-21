@@ -219,13 +219,6 @@
       </div>
     </div>
     <div class="field span2">
-      <div class="sizefield">
-        <label style="margin-bottom:10px">&#9313; System size you&rsquo;re weighing up</label>
-        <input type="range" id="kw" min="2" max="13" step="0.44" value="6.6">
-        <div class="hint" id="kwHint">6.6 kW &middot; &asymp; 15 panels (440 W)</div>
-      </div>
-    </div>
-    <div class="field span2">
       <div class="billcallout">
         <div class="billtop">
           <span class="billicon">&#10003;</span>
@@ -244,23 +237,32 @@
         </div>
       </div>
     </div>
+    <div class="field span2">
+      <div class="sizefield">
+        <label style="margin-bottom:10px">&#9313; System size you&rsquo;re weighing up &mdash; slide and watch the graph</label>
+        <input type="range" id="kw" min="2" max="13" step="0.44" value="6.6">
+        <div class="hint" id="kwHint">6.6 kW &middot; &asymp; 15 panels (440 W)</div>
+      </div>
+    </div>
   </div>
 
-  <div class="resulttab">&#9314; Your result</div>
-  <div class="hero">
-    <div class="hero-k">The size you're weighing up</div>
-    <div class="hero-size"><span id="kwBig">6.6</span> kW <span class="p">· ≈ <span id="panelBig">15</span> panels</span></div>
-    <div class="hero-note" id="heroNote"></div>
-  </div>
-
-  <div class="top">
+  <div class="resulttab">&#9314; Your result &mdash; how your solar day looks</div>
+  <div class="top" style="padding-bottom:2px">
     <div class="h-title" id="htitle">A typical summer day</div>
+  </div>
+
+  <div class="chartbox"><svg id="chart" viewBox="0 0 820 340" role="img" aria-label="solar day"></svg></div>
+  <div class="legend">
+    <span><i class="sw" style="background:var(--amber)"></i> Solar you use</span>
+    <span><i class="sw" id="swExp"></i> Sent to the grid for cents</span>
+    <span><i class="sw" style="background:var(--blue)"></i> Bought from the grid</span>
+    <span><i class="sw line"></i> Your home's use</span>
+  </div>
+
+  <div class="top" style="padding-top:8px">
     <p class="headline" id="headline"></p>
     <p class="usednote" id="usednote" style="display:none;font-size:12.5px;color:var(--amber-lt);margin-top:10px;line-height:1.5"></p>
   </div>
-
-  <div class="statrow" id="statrow"></div>
-  <div class="kicker" id="kicker"></div>
 
   <div class="toggles">
     <div class="tblock"><span class="l">Season</span>
@@ -271,13 +273,14 @@
       <div class="seg surplus" id="surSeg"><button data-m="exported" class="on">Exported</button><button data-m="used">Surplus used</button></div></div>
   </div>
 
-  <div class="chartbox"><svg id="chart" viewBox="0 0 820 340" role="img" aria-label="solar day"></svg></div>
-  <div class="legend">
-    <span><i class="sw" style="background:var(--amber)"></i> Solar you use</span>
-    <span><i class="sw" id="swExp"></i> Sent to the grid for cents</span>
-    <span><i class="sw" style="background:var(--blue)"></i> Bought from the grid</span>
-    <span><i class="sw line"></i> Your home's use</span>
+  <div class="hero">
+    <div class="hero-k">The size you're weighing up</div>
+    <div class="hero-size"><span id="kwBig">6.6</span> kW <span class="p">· ≈ <span id="panelBig">15</span> panels</span></div>
+    <div class="hero-note" id="heroNote"></div>
   </div>
+
+  <div class="statrow" id="statrow"></div>
+  <div class="kicker" id="kicker"></div>
 
   <details class="shapenote">
     <summary class="shapeline">Your home&rsquo;s use (white line) peaks morning and night. <span class="shapewhy">&#9432; How your day is assumed to run</span></summary>
