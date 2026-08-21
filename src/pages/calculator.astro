@@ -6,7 +6,7 @@ import pc from "../data/pc_data.json";
 import sb from "../data/nathers_starbands.json";
 const data = "window.PC=" + JSON.stringify(pc) + ";window.SB=" + JSON.stringify(sb) + ";";
 ---
-<Layout title="What size solar system do I need? Free solar sizing calculator | Powermind" description="Work out what size solar system your home needs — in kW and panels — with a free Australian calculator, plus the bit most tools skip: how much of it you'll actually use." active="calc">
+<Layout title="What size solar system do I need? Free solar sizing calculator | Powermind" description="Work out what size solar system your home needs — in kW and panels — with a free Australian calculator, plus the bit most tools skip: how much of it you'll actually use." ogImage="/og-calculator.png" active="calc">
   <Fragment set:html={body} />
   <script is:inline set:html={data} />
   <script is:inline set:html={js} />
