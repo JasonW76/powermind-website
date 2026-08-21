@@ -5,9 +5,59 @@ import js from "../content/calculator.js?raw";
 import pc from "../data/pc_data.json";
 import sb from "../data/nathers_starbands.json";
 const data = "window.PC=" + JSON.stringify(pc) + ";window.SB=" + JSON.stringify(sb) + ";";
+
+// ── Structured data: this page is a TOOL, not an article. ─────────────────
+//
+// Added 2026-08-21. Verified in Ahrefs (AU) that `what size solar system do i need`
+// (KD 5 / TP 5,900) and `solar savings calculator` (KD 8 / TP 3,200) share ONE parent
+// topic — `solar calculator` — so a single page legitimately holds both. That SERP
+// ranks calculators, not prose: six of the top ten results are tools. Telling Google
+// explicitly that this IS a tool is the cheapest thing we can do about that.
+//
+// ⚠️ Every claim below must match what the calculator actually computes. It does NOT
+//    calculate battery payback — there is no battery logic and no tariff input — so
+//    `solar battery payback` is deliberately absent from featureList and from the
+//    description. That keyword was dropped as a target on 21 Aug 2026 for exactly
+//    this reason. Do not add it back unless the tool actually does it.
+const app = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: "Powermind Solar Savings Calculator",
+  url: "https://www.powermind.com.au/calculator",
+  applicationCategory: "UtilitiesApplication",
+  operatingSystem: "Any (runs in a web browser)",
+  browserRequirements: "Requires JavaScript",
+  isAccessibleForFree: true,
+  inLanguage: "en-AU",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "AUD" },
+  description:
+    "A free Australian solar calculator that sizes a rooftop system in kW and panels for your postcode and household, then shows how much of that solar you would actually use rather than export — and what shifting your big loads into daylight would be worth over a year.",
+  featureList: [
+    "Sizes a solar system in kW and panel count by postcode and household",
+    "Draws your solar day against your household's use, summer and winter",
+    "Shows the share of your solar you would self-consume, as-is and with loads shifted",
+    "Estimates the annual saving from using your surplus instead of exporting it",
+    "Downloadable one-page report to take to an installer",
+  ],
+  provider: {
+    "@type": "Organization",
+    name: "Powermind",
+    url: "https://www.powermind.com.au",
+  },
+  audience: {
+    "@type": "Audience",
+    geographicArea: { "@type": "Country", name: "Australia" },
+  },
+};
 ---
-<Layout title="What size solar system do I need? Free solar sizing calculator | Powermind" description="Work out what size solar system your home needs — in kW and panels — with a free Australian calculator, plus the bit most tools skip: how much of it you'll actually use." ogImage="/og-calculator.png" active="calc">
+<Layout
+  title="What size solar system do I need? Free solar savings calculator | Powermind"
+  description="What size solar system your home needs, in kW and panels — and what you'd actually save. A free Australian solar savings calculator showing how much of your solar you'd keep."
+  ogImage="/og-calculator.png"
+  active="calc"
+>
   <Fragment set:html={body} />
+  <script type="application/ld+json" set:html={JSON.stringify(app)} />
   <script is:inline set:html={data} />
   <script is:inline set:html={js} />
 </Layout>
