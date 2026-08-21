@@ -1,12 +1,12 @@
 ---
 import "../styles/global.css";
-const { title, description, active, noindex } = Astro.props;
+const { title, description, active, noindex, ogImage: ogImageProp } = Astro.props;
 const buildDate = new Date().toLocaleDateString("en-AU", { month: "long", year: "numeric" });
 // Strip the .html the file build format adds to the path, so the canonical
 // matches the clean, extension-less URL Cloudflare serves and the sitemap lists
 // (e.g. /app, not /app.html).
 const canonical = new URL(Astro.url.pathname.replace(/\.html$/, ""), Astro.site).href;
-const ogImage = new URL("/og-image.png", Astro.site).href;
+const ogImage = new URL(ogImageProp || "/og-image.png", Astro.site).href;
 const org = {
   "@context": "https://schema.org",
   "@type": "Organization",
