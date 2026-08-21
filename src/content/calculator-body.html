@@ -147,6 +147,11 @@
 #solarcalc .dayassume{margin:9px 0 0;padding-left:18px}
 #solarcalc .dayassume li{margin-bottom:6px;line-height:1.55}
 @media(max-width:640px){#solarcalc .sh-steps{grid-template-columns:1fr;gap:13px}}
+/* --- toggle help line --- */
+#solarcalc .togglehelp{padding:8px 26px 6px;font-size:12.5px;line-height:1.6;color:var(--faint);max-width:82ch}
+#solarcalc .togglehelp b{color:var(--muted)}
+#solarcalc .togglehelp .tgl-grn{color:var(--green-lt);font-weight:700}
+@media(max-width:640px){#solarcalc .togglehelp{padding-left:16px;padding-right:16px}}
 </style>
 
 <header class="phead">
@@ -173,7 +178,7 @@
     <div class="sh-steps">
       <div class="sh-step"><div class="sh-num">1</div><div class="sh-txt"><b>Tell it about your home</b><span>Postcode, people, efficiency, hot water &amp; your big loads.</span></div></div>
       <div class="sh-step"><div class="sh-num">2</div><div class="sh-txt"><b>Slide to a system size</b><span>The size in kW you&rsquo;re weighing up.</span></div></div>
-      <div class="sh-step"><div class="sh-num">3</div><div class="sh-txt"><b>Read your solar day</b><span>How much you&rsquo;d use vs export &mdash; updates live below.</span></div></div>
+      <div class="sh-step"><div class="sh-num">3</div><div class="sh-txt"><b>Read your solar day</b><span>How much you&rsquo;d use vs export &mdash; then flip &ldquo;Surplus used&rdquo; below to see what you&rsquo;d keep.</span></div></div>
     </div>
   </div>
 
@@ -272,6 +277,7 @@
     <div class="tblock right"><span class="l">Your surplus</span>
       <div class="seg surplus" id="surSeg"><button data-m="exported" class="on">Exported</button><button data-m="used">Surplus used</button></div></div>
   </div>
+  <div class="togglehelp"><b>Season</b> and <b>Day</b> change the day you&rsquo;re looking at &mdash; summer or winter, and an <b>Average</b> day (a normal mix of sun and cloud) or a <b>Clear</b>, bright one. &nbsp;<b>Your surplus:</b> <b>Exported</b> is your spare solar going to the grid for a few cents &mdash; switch to <span class="tgl-grn">Surplus used</span> to see how much more you&rsquo;d keep by running your big loads on it instead.</div>
 
   <div class="hero">
     <div class="hero-k">The size you're weighing up</div>

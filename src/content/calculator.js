@@ -112,7 +112,7 @@ function draw(){
   // hero: the size, front and centre — the user slides it and decides; we don't prescribe
   document.getElementById('kwBig').textContent=(+st.kw.toFixed(2));
   document.getElementById('panelBig').textContent=Math.round(st.kw/0.44);
-  document.getElementById('heroNote').innerHTML='Slide the size below and watch your generation and self-use move — there’s no single right answer, so land on what suits your roof, budget and how much you’d use. Your home uses about <b style="color:var(--ink)">'+annualUse.toLocaleString()+'</b> kWh a year. <a href="#overview">Read the full overview ↓</a>';
+  document.getElementById('heroNote').innerHTML='Slide the size and watch your generation and self-use move — there’s no single right answer, so land on what suits your roof, budget and how much you’d use. Your home uses about <b style="color:var(--ink)">'+annualUse.toLocaleString()+'</b> kWh a year. <a href="#overview">Read the full overview ↓</a>';
   var day=r[st.season][st.mode], asis=r[st.season].exported, sm=r[st.season].used;
   // fine-sample so the export<->import handover lands exactly where gen crosses load
   var wrap=function(a){return a.concat([a[0]])};
